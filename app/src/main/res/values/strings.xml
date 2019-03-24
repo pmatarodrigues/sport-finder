@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">SportFinder</string>
+    <string name="criar_conta">Criar Conta</string>
+    <string name="esqueci_a_passe">Esqueci-me da Password</string>
+
+    <string name="submissoes">Submissoes</string>
+    <string name="rating">Rating</string>
+
+    <string name="search">Pesquisar</string>
+    <string name="add">Adicionar</string>
+    <string name="favorites">Favoritos</string>
+    <string name="history">Histórico</string>
+    <string name="ranking">Ranking</string>
+    <string name="account">Conta</string>
+
+    <string name="search_hint">Pesquisar...</string>
+    <string name="text_continue">Continuar</string>
+
+
+</resources>

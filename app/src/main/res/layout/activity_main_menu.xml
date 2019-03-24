@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainmenu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_rectangle"
+    >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/username_main_menu"
+        android:layout_width="225dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="32dp"
+        android:text="NomeUtilizador"
+        android:textAppearance="@style/username_main_menu"
+        android:gravity="top"
+        />
+
+    <View
+        android:id="@+id/rectangle"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="365dp"
+        android:background="@drawable/background_rectangle_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                >
+
+                <TextView
+                    android:id="@+id/favoritos"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="204dp"
+                    android:text="@string/favorites"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/details_title_main_menu"
+                    />
+
+                <TextView
+                    android:id="@+id/favoritos_main_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="21"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/details_points_main_menu"
+                    />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                >
+
+                <TextView
+                    android:id="@+id/submissoes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/submissoes"
+                    android:layout_marginTop="204dp"
+                    android:textAppearance="@style/details_title_main_menu"
+                    android:textAlignment="center"
+                    android:gravity="center_horizontal|top"
+                    />
+                <TextView
+                    android:id="@+id/submissoes_main_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="52"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/details_points_main_menu"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                >
+
+                <TextView
+                    android:id="@+id/rating"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="204dp"
+                    android:text="@string/rating"
+                    android:textAppearance="@style/details_title_main_menu"
+                    android:textAlignment="center"
+                    />
+                <TextView
+                    android:id="@+id/rating_points_main_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="4.5"
+                    android:textAppearance="@style/details_points_main_menu"
+                    android:textAlignment="center"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_gravity="center"
+            >
+
+            <Button
+                android:drawableTop="@drawable/ic_icon_search"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:id="@+id/button_search_main_menu"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_margin="10dp"
+                android:padding="30dp"
+                android:background="@drawable/background_button_main_menu"
+                android:text="@string/search"
+                android:elevation="20dp"
+                />
+
+            <Button
+                android:drawableTop="@drawable/ic_icon_add"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:id="@+id/button_add_main_menu"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_margin="10dp"
+                android:padding="30dp"
+                android:background="@drawable/background_button_main_menu"
+                android:text="@string/add"
+                android:elevation="20dp"
+                />
+
+            <Button
+                android:drawableTop="@drawable/ic_icon_favorites"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:id="@+id/button_favs_main_menu"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_margin="10dp"
+                android:padding="30dp"
+                android:background="@drawable/background_button_main_menu"
+                android:text="@string/favorites"
+                android:elevation="20dp"
+                />
+
+            <Button
+                android:drawableTop="@drawable/ic_icon_history"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:id="@+id/button_hist_main_menu"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_margin="10dp"
+                android:padding="30dp"
+                android:background="@drawable/background_button_main_menu"
+                android:text="@string/history"
+                android:elevation="20dp"
+                />
+
+            <Button
+                android:drawableTop="@drawable/ic_icon_ranking"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:id="@+id/button_ranking_main_menu"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_margin="10dp"
+                android:padding="30dp"
+                android:background="@drawable/background_button_main_menu"
+                android:text="@string/ranking"
+                android:elevation="20dp"
+                />
+
+            <Button
+                android:drawableTop="@drawable/ic_icon_profile"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:id="@+id/button_profile_main_menu"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_margin="10dp"
+                android:padding="30dp"
+                android:background="@drawable/background_button_main_menu"
+                android:text="@string/account"
+                android:elevation="20dp"
+                />
+
+        </GridLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+
+</ScrollView>
