@@ -54,6 +54,7 @@
             android:layout_width="280dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
+            android:paddingLeft="10dp"
             android:hint="Email"
             android:background="@drawable/edittext_rectangle"
             />
@@ -64,6 +65,7 @@
             android:layout_width="280dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
+            android:paddingLeft="10dp"
             android:hint="Password"
             android:background="@drawable/edittext_rectangle"
             />
@@ -94,7 +96,7 @@
             android:id="@+id/esqueci_me_"
             android:textAlignment="center"
             android:layout_width="match_parent"
-            android:layout_height="17dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/esqueci_a_passe"
             android:textAppearance="@style/criar_conta"
