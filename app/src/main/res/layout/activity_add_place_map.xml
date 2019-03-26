@@ -9,42 +9,82 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         >
 
         <View
             android:id="@+id/rectangle"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="900dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="55dp"
-            android:background="@drawable/background_rectangle_gray" />
-
-        <View
-            android:layout_centerInParent="true"
-            android:layout_width="300dp"
-            android:layout_height="500dp"
-            android:layout_marginBottom="50dp"
-            android:background="@drawable/background_card"
+            android:background="@drawable/background_rectangle_gray"
             />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:id="@+id/layout_white_card"
             android:layout_centerHorizontal="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="50dp"
+            android:background="@drawable/background_card"
             android:orientation="vertical"
+            android:padding="20dp"
             >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="4" >
 
-            <EditText
-                android:layout_width="300dp"
-                android:layout_height="40dp"
-                android:hint="Nome do Parque"
-                />
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="Nome do Parque"
+                        />
 
+                    <Spinner
+                        android:layout_weight="3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
+                    </Spinner>
+
+                </LinearLayout>
+
+                <EditText
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:inputType="text|textMultiLine"
+                    android:gravity="top"
+                    android:hint="Informações Relevantes"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/colorLightGray"/>
+
+                <fragment
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="60dp"
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.MapFragment" />
 
         </LinearLayout>
 
-
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_marginHorizontal="60dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmar"
+            android:background="@drawable/background_button_confirm"
+            android:textColor="@color/colorWhite"
+            android:layout_alignBottom="@id/layout_white_card"
+            android:layout_marginBottom="20dp"
+            />
 
     </RelativeLayout>
 

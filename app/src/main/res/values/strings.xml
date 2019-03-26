@@ -27,7 +27,7 @@
 
     <string name="warningEmailEmpty">Insira um Emai</string>
     <string name="warningEmailExist">Emal já existente</string>
-    
+
     <string name="warningPasswordEmpty">Insira uma Password</string>
     <string name="wartningPasswordNotMatch">As Passwords Não Coincidem</string>
     <string name="wartningPasswordRestriction">A password deve conter: A-Z, a-z e números. Minímo de 8 caracteres. </string>
