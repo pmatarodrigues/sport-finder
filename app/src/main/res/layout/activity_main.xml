@@ -48,27 +48,50 @@
             android:layout_gravity="center"
             />
 
-        <EditText
-            android:id="@+id/login_email"
+        <LinearLayout
+            android:id="@+id/emailLinearLayout"
             android:layout_marginTop="30dp"
-            android:layout_width="280dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingLeft="10dp"
-            android:hint="Email"
-            android:background="@drawable/edittext_rectangle"
-            />
+            android:padding="1dp"
 
-        <EditText
-            android:id="@+id/login_password"
+            >
+
+            <EditText
+                android:id="@+id/login_email"
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:paddingLeft="10dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/edittext_rectangle"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/passwordLinearLayout"
             android:layout_marginTop="10dp"
-            android:layout_width="280dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingLeft="10dp"
-            android:hint="Password"
-            android:background="@drawable/edittext_rectangle"
-            />
+            android:padding="1dp"
+
+            >
+
+            <EditText
+                android:id="@+id/login_password"
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:paddingLeft="10dp"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:background="@drawable/edittext_rectangle"
+                />
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/button_login"
