@@ -101,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
         }
         //Remover linhas seguintes para produto final
         //TODO
-
+        Intent intent = new Intent(MainActivity.this, ActivityMainMenu.class);
+        MainActivity.this.startActivity(intent);
     }
     //
     private void showKeyboard(View view){
