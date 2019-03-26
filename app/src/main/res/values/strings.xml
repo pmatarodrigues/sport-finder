@@ -33,7 +33,10 @@
     <string name="warningConfirmPasswordEmpty">Insira a confirmação da Password</string>
     <string name="wartningPasswordNotMatch">As passwords não coincidem</string>
     <string name="wartningPasswordRestriction">A password deve conter: A-Z, a-z e números. Minímo de 8 caracteres. </string>
+
     <string name="warningEmailInUse">Email inserido já em uso</string>
+    <string name="warningcredentialsInvalid">Credenciais inválidas</string>
+
 
 
 

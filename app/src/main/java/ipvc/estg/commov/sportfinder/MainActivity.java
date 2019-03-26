@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
 
+    private TextView tv_warningLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +40,15 @@ public class MainActivity extends AppCompatActivity {
         setupListeners();
         this.editTextEmail = (EditText) findViewById(R.id.login_email);
         this.editTextPassword = (EditText) findViewById(R.id.login_password);
+        this.tv_warningLogin=(TextView)findViewById(R.id.txtLoginWarning);
 
         progressDialog= new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser()!=null){
+            finish();
+            Intent intent = new Intent(MainActivity.this, ActivityMainMenu.class);
+            MainActivity.this.startActivity(intent);
+        }
     }
 
     private void setupListeners() {
@@ -77,11 +85,13 @@ public class MainActivity extends AppCompatActivity {
         emailLayout.setBackgroundColor(Color.TRANSPARENT);
         passwordLayout.setBackgroundColor(Color.TRANSPARENT);
         if(this.editTextEmail.getText().toString().trim().isEmpty()){
+            tv_warningLogin.setText(R.string.warningEmailEmpty);
             emailLayout.setBackgroundColor(Color.parseColor("#ff0000"));
             if(this.editTextEmail.requestFocus()){
                 this.showKeyboard(this.editTextEmail);
             }
         }else if (this.editTextPassword.getText().toString().trim().isEmpty()){
+            tv_warningLogin.setText(R.string.warningPasswordEmpty);
             passwordLayout.setBackgroundColor(Color.parseColor("#ff0000"));
             if(this.editTextPassword.requestFocus()){
                 this.showKeyboard(this.editTextPassword);
@@ -128,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(MainActivity.this, ActivityMainMenu.class);
                             MainActivity.this.startActivity(intent);
                         }else{
-                            Log.d("TAG","pedro123"+task.getException());
+                            tv_warningLogin.setText(R.string.warningcredentialsInvalid);
                         }
                         progressDialog.dismiss();
                     }
