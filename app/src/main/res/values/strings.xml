@@ -25,10 +25,18 @@
     <string name="warningUsernameEmpty">Insira um Username</string>
     <string name="warningUsernameExist">Username já existente</string>
 
+<<<<<<< HEAD
     <string name="warningEmailEmpty">Insira um Emai</string>
     <string name="warningEmailExist">Emal já existente</string>
 
+=======
+    <string name="warningEmailEmpty">Insira um Email</string>
+    <string name="warningEmailExist">Email já existente</string>
+    <string name="warningEmailInvalid">Email inválido.</string>
+    
+>>>>>>> b46f72f29d4e8df7af81639764a3e7072ef67a5e
     <string name="warningPasswordEmpty">Insira uma Password</string>
+    <string name="warningConfirmPasswordEmpty">Insira a confirmação da Password</string>
     <string name="wartningPasswordNotMatch">As Passwords Não Coincidem</string>
     <string name="wartningPasswordRestriction">A password deve conter: A-Z, a-z e números. Minímo de 8 caracteres. </string>
 

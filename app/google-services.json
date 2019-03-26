@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "574496360382",
+    "firebase_url": "https://sport-finder-f864a.firebaseio.com",
+    "project_id": "sport-finder-f864a",
+    "storage_bucket": "sport-finder-f864a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:574496360382:android:699789641406fa54",
+        "android_client_info": {
+          "package_name": "ipvc.estg.commov.sportfinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "574496360382-47hb0bi9qi6gm7uvgr7u7ruoahmt8hgk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0e9reU56hTouGZo9krePamz-4U7fKYmQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
