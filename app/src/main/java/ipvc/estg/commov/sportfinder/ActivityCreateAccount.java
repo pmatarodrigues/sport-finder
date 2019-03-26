@@ -41,12 +41,10 @@ public class ActivityCreateAccount extends AppCompatActivity{
                 //falta verificar se o email já existe
                 return;
             }else if(et_password.getText().toString().isEmpty()){
-
-
-            }else if(et_confirmarPassword.getText().toString().isEmpty()){
-
+                txt_Warning.setText(R.string.warningPasswordEmpty);
+                //falta verificar se o email já existe
+                return;
             }
-
             }
         });
     }
