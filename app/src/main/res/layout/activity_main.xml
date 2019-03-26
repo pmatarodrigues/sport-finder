@@ -92,6 +92,16 @@
                 />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/txtLoginWarning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text=""
+            android:textColor="#ff0000"
+            android:paddingVertical="2dp"
+            />
+
 
         <Button
             android:id="@+id/button_login"

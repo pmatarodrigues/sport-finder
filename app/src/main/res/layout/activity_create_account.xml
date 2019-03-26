@@ -25,7 +25,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="40dp"
+            android:layout_marginHorizontal="20dp"
             android:padding="10dp"
             android:background="@drawable/background_card"
             >
@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:isScrollContainer="false"
+                android:paddingBottom="50dp"
                 >
                 <!--
                     Todas o conteudo a adicionar nesta página deve ser colocado aqui dentro. É
