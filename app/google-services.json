@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "574496360382-np3tg2un90ii7ledmj0ou06vm0q306b8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ipvc.estg.commov.sportfinder",
+            "certificate_hash": "1ebf5a353b5a6a4ad964b98d0f62588174132e16"
+          }
+        },
+        {
           "client_id": "574496360382-47hb0bi9qi6gm7uvgr7u7ruoahmt8hgk.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "574496360382-47hb0bi9qi6gm7uvgr7u7ruoahmt8hgk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

@@ -1,11 +1,9 @@
 package ipvc.estg.commov.sportfinder;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +35,7 @@ public class ActivityCreateAccount extends AppCompatActivity{
         et_confirmarPassword=(EditText)findViewById(R.id.et_confirmarPassword);
         et_username=(EditText) findViewById(R.id.et_username);
         //Button
-        //btn_criarConta=(Button)findViewById(R.id.btn_criarConta);
+        btn_criarConta=(Button)findViewById(R.id.btn_criarConta);
         //TextView
         txt_Warning=(TextView)findViewById(R.id.txtWarnings);
         //Firebase
@@ -46,7 +44,7 @@ public class ActivityCreateAccount extends AppCompatActivity{
         progressDialog = new ProgressDialog(this);
 
 
-        /*btn_criarConta.setOnClickListener(new View.OnClickListener() {
+        btn_criarConta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
             if(et_username.getText().toString().isEmpty()){
@@ -80,7 +78,7 @@ public class ActivityCreateAccount extends AppCompatActivity{
                 //Toast.makeText(ActivityCreateAccount.this, "Correu tudo bem", Toast.LENGTH_SHORT).show();
                 }
             }
-        });*/
+        });
     }
 
     private boolean verificarPassword(String password){
@@ -125,7 +123,7 @@ public class ActivityCreateAccount extends AppCompatActivity{
         mAuth.createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    public void onComplete( Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
                             Toast.makeText(ActivityCreateAccount.this, "Registado Com Sucesso", Toast.LENGTH_SHORT).show();
