@@ -75,18 +75,21 @@
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:hint="@string/email"
+                android:id="@+id/et_email"
                 />
 
             <EditText
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:hint="@string/password"
+                android:id="@+id/et_password"
                 />
 
             <EditText
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:hint="@string/confirm_password"
+                android:id="@+id/et_confirmarPassword"
                 />
 
 
@@ -97,6 +100,7 @@
                 android:background="@drawable/background_button_confirm"
                 android:text="@string/criar_conta"
                 android:textColor="@color/colorWhite"
+                android:id="@+id/btn_criarConta"
                 />
 
 
