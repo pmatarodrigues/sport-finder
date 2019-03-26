@@ -21,5 +21,17 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirmar Password</string>
 
+    <!-- secção de erros -->
+    <string name="warningUsernameEmpty">Insira um Username</string>
+    <string name="warningUsernameExist">Username já existente</string>
+
+    <string name="warningEmailEmpty">Insira um Emai</string>
+    <string name="warningEmailExist">Emal já existente</string>
+    
+    <string name="warningPasswordEmpty">Insira uma Password</string>
+    <string name="wartningPasswordNotMatch">As Passwords Não Coincidem</string>
+    <string name="wartningPasswordRestriction">A password deve conter: A-Z, a-z e números. Minímo de 8 caracteres. </string>
+
+
 
 </resources>
