@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     protected void openMainMenu(){
         //Run login checkups
         if(this.editTextEmail.getText().toString().trim().isEmpty()){
-            this.editTextEmail.get().setColorFilter(Color.parseColor("#ff0000"), PorterDuff.Mode.SRC_IN);
+            //this.editTextEmail.getText().setColorFilter(Color.parseColor("#ff0000"), PorterDuff.Mode.SRC_IN);
         }
         Intent intent = new Intent(MainActivity.this, ActivityMainMenu.class);
         MainActivity.this.startActivity(intent);
