@@ -47,38 +47,42 @@ public class ActivityCreateAccount extends AppCompatActivity{
         btn_criarConta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            if(et_username.getText().toString().isEmpty()){
-                txt_Warning.setText(R.string.warningUsernameEmpty);
-                //falta verificar se já existe ou nao
-                et_password.setText("");
-                et_confirmarPassword.setText("");
-            }else if(et_email.getText().toString().isEmpty()){
-                txt_Warning.setText(R.string.warningEmailEmpty);
-                //falta verificar se o email já existe
-                et_password.setText("");
-                et_confirmarPassword.setText("");
-            }else if(!isValidEmailAddress(et_email.getText().toString().trim())){
-                txt_Warning.setText(R.string.warningEmailInvalid);
-                et_password.setText("");
-                et_confirmarPassword.setText("");
-            }else if(et_password.getText().toString().isEmpty()){
-                txt_Warning.setText(R.string.warningPasswordEmpty);
-            }else if (et_confirmarPassword.getText().toString().isEmpty()){
-                txt_Warning.setText(R.string.warningConfirmPasswordEmpty);
-            }else if(verificarPassword(et_password.getText().toString())==false){
-                txt_Warning.setText(R.string.wartningPasswordRestriction);
-                et_password.setText("");
-                et_confirmarPassword.setText("");
-            }else if(!et_password.getText().toString().equals(et_confirmarPassword.getText().toString())){
-                txt_Warning.setText(R.string.wartningPasswordNotMatch);
-                et_password.setText("");
-                et_confirmarPassword.setText("");
-            }else{
-                registarUser(et_email.getText().toString().trim(),et_password.getText().toString());
-                //Toast.makeText(ActivityCreateAccount.this, "Correu tudo bem", Toast.LENGTH_SHORT).show();
-                }
+                btnCriarContaClicked(view);
             }
         });
+    }
+
+    private void btnCriarContaClicked(View view) {
+        if(et_username.getText().toString().isEmpty()){
+            txt_Warning.setText(R.string.warningUsernameEmpty);
+            //falta verificar se já existe ou nao
+            et_password.setText("");
+            et_confirmarPassword.setText("");
+        }else if(et_email.getText().toString().isEmpty()){
+            txt_Warning.setText(R.string.warningEmailEmpty);
+            //falta verificar se o email já existe
+            et_password.setText("");
+            et_confirmarPassword.setText("");
+        }else if(!isValidEmailAddress(et_email.getText().toString().trim())){
+            txt_Warning.setText(R.string.warningEmailInvalid);
+            et_password.setText("");
+            et_confirmarPassword.setText("");
+        }else if(et_password.getText().toString().isEmpty()){
+            txt_Warning.setText(R.string.warningPasswordEmpty);
+        }else if (et_confirmarPassword.getText().toString().isEmpty()){
+            txt_Warning.setText(R.string.warningConfirmPasswordEmpty);
+        }else if(verificarPassword(et_password.getText().toString())==false){
+            txt_Warning.setText(R.string.wartningPasswordRestriction);
+            et_password.setText("");
+            et_confirmarPassword.setText("");
+        }else if(!et_password.getText().toString().equals(et_confirmarPassword.getText().toString())){
+            txt_Warning.setText(R.string.wartningPasswordNotMatch);
+            et_password.setText("");
+            et_confirmarPassword.setText("");
+        }else{
+            registarUser(et_email.getText().toString().trim(),et_password.getText().toString());
+            //Toast.makeText(ActivityCreateAccount.this, "Correu tudo bem", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private boolean verificarPassword(String password){
@@ -126,12 +130,13 @@ public class ActivityCreateAccount extends AppCompatActivity{
                     public void onComplete( Task<AuthResult> task) {
                         progressDialog.dismiss();
                         if(task.isSuccessful()){
-                            Toast.makeText(ActivityCreateAccount.this, "Registado Com Sucesso", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ActivityCreateAccount.this, "Registado Com Sucesso", Toast.LENGTH_SHORT).show();
                             finish();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        }else {
+                        }else if(task.getException().toString().trim().contains("The email address is already in use by another account")) {
+                            txt_Warning.setText("Email already in use");
                             Log.d("TAG","pedro123"+task.getException());
-                            Toast.makeText(ActivityCreateAccount.this, "Erro ao Registar", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(ActivityCreateAccount.this, "Erro ao Registar", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
