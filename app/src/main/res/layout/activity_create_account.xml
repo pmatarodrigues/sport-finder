@@ -11,6 +11,7 @@
         android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="20dp"
         >
 
         <View
@@ -21,54 +22,54 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/background_rectangle_gray" />
 
-
-        <View
-            android:id="@+id/whiteBackground"
-            android:layout_centerHorizontal="true"
-            android:layout_width="300dp"
-            android:layout_height="550dp"
-            android:layout_marginBottom="50dp"
-            android:background="@drawable/background_card"
-            />
-
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-
-            android:padding="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:background="@drawable/background_card"
             >
-
             <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="@drawable/background_circle"
-                android:layout_gravity="center"
-                android:gravity="center"
+                android:layout_alignTop="@+id/whiteBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="5dp"
+                android:layout_centerHorizontal="true"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="50dp"
+                android:layout_marginHorizontal="40dp"
+
                 >
 
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:background="@drawable/ic_icon_add_profilepic"
-                    />
+                <LinearLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/background_circle"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="5dp"
+                    >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Escolher foto de perfil"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="13dp"
-                    />
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/ic_icon_add_profilepic"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Escolher foto de perfil"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="13dp"
+                        />
 
 
-            </LinearLayout>
+                </LinearLayout>
 
-
+<<<<<<< HEAD
             <EditText
                 android:layout_width="300dp"
                 android:layout_height="40dp"
@@ -104,8 +105,17 @@
                 android:gravity="center"
                 android:text="Exemplo"
                 android:textColor="#ff0000"/>
+=======
+>>>>>>> 3cb326d9cafc4c5154b2d5b08352a02bc33921f1
 
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/username"
+                    android:layout_marginVertical="5dp"
+                    />
 
+<<<<<<< HEAD
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -115,9 +125,43 @@
                 android:textColor="@color/colorWhite"
                 android:id="@+id/btn_criarConta"
                 />
+=======
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:layout_marginVertical="5dp"
+                    />
 
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:layout_marginVertical="5dp"
+                    android:inputType="textPassword"
+                    />
 
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/confirm_password"
+                    android:layout_marginVertical="5dp"
+                    android:inputType="textPassword"
+                    />
+>>>>>>> 3cb326d9cafc4c5154b2d5b08352a02bc33921f1
+
+                <TextView
+                    android:id="@+id/txtWarnings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Exemplo"
+                    android:textColor="#ff0000"
+                    android:layout_marginVertical="5dp"/>
+
+            </LinearLayout>
         </LinearLayout>
+
 
 
     </RelativeLayout>
