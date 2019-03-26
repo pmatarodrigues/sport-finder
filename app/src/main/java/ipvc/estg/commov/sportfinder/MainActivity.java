@@ -54,12 +54,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    //
-    private void showKeyboard(View view){
-        InputMethodManager imm = (InputMethodManager)
-                getSystemService(MainActivity.this.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
-    }
     protected void openMainMenu(){
         //Run login checkups
         LinearLayout emailLayout = (LinearLayout) findViewById(R.id.emailLinearLayout);
@@ -80,17 +74,25 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ActivityMainMenu.class);
             MainActivity.this.startActivity(intent);
         }
+        Intent intent = new Intent(MainActivity.this, ActivityMainMenu.class);
+        MainActivity.this.startActivity(intent);
+    }
+    //
+    private void showKeyboard(View view){
+        InputMethodManager imm = (InputMethodManager)
+                getSystemService(MainActivity.this.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
     //TextViews brains
     private void txtViewCriarContaClicked(View v){
         //What happens when you click Criar Conta??
         //Define here what happens
-        Toast.makeText(MainActivity.this, getResources().getString(R.string.criar_conta) +" Clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, getResources().getString(R.string.criar_conta) +" Clicked", Toast.LENGTH_SHORT).show();//Comment this line for the end product
 
     }
     private void txtViewEsquecimeClicked(View v){
         //What happens when you click Esqueci-me??
         //Define here what happens
-        Toast.makeText(MainActivity.this, getResources().getString(R.string.esqueci_a_passe)+" Clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, getResources().getString(R.string.esqueci_a_passe)+" Clicked", Toast.LENGTH_SHORT).show();//Comment this line for the end product
     }
 }
