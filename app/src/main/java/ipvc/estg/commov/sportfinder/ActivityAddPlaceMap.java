@@ -32,12 +32,12 @@ public class ActivityAddPlaceMap extends FragmentActivity implements OnMapReadyC
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-      //  mMap = googleMap;
+        //mMap = googleMap;
 
         // Add a marker in Sydney, Australia, and move the camera.
         //LatLng sydney = new LatLng(-34, 151);
         //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-       // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
 }
