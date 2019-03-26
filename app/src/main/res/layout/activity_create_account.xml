@@ -73,6 +73,7 @@
                 android:layout_width="300dp"
                 android:layout_height="40dp"
                 android:hint="@string/username"
+                android:id="@+id/et_username"
                 />
 
             <EditText
