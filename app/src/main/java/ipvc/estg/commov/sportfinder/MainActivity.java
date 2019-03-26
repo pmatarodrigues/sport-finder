@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
         //What happens when you click Criar Conta??
         //Define here what happens
         Toast.makeText(MainActivity.this, getResources().getString(R.string.criar_conta) +" Clicked", Toast.LENGTH_SHORT).show();//Comment this line for the end product
+        Intent intent = new Intent(MainActivity.this, ActivityCreateAccount.class);
+        MainActivity.this.startActivity(intent);
 
     }
     private void txtViewEsquecimeClicked(View v){
