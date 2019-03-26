@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".ActivityMainMenu" />
         <activity android:name=".ActivityAddPlace" />
-        <activity android:name=".ActivityAddPlaceMap"></activity>
+        <activity android:name=".ActivityAddPlaceMap" />
+        <activity android:name=".ActivityCreateAccount"></activity>
     </application>
 
 </manifest>

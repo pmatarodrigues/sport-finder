@@ -16,5 +16,10 @@
     <string name="search_hint">Pesquisar...</string>
     <string name="text_continue">Continuar</string>
 
+    <string name="email">Email</string>
+    <string name="username">Nome de Utilizador</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirmar Password</string>
+
 
 </resources>
