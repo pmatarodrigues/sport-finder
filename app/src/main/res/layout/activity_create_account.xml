@@ -34,6 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:isScrollContainer="false"
+                android:paddingBottom="50dp"
                 >
                 <!--
                     Todas o conteudo a adicionar nesta página deve ser colocado aqui dentro. É

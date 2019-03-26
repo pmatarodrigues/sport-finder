@@ -134,7 +134,7 @@ public class ActivityCreateAccount extends AppCompatActivity{
                             finish();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }else if(task.getException().toString().trim().contains("The email address is already in use by another account")) {
-                            txt_Warning.setText("Email already in use");
+                            txt_Warning.setText(R.string.warningEmailInUse);
                             Log.d("TAG","pedro123"+task.getException());
                             //Toast.makeText(ActivityCreateAccount.this, "Erro ao Registar", Toast.LENGTH_SHORT).show();
                         }
