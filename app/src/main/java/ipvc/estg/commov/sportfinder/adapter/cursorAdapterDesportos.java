@@ -2,6 +2,7 @@ package ipvc.estg.commov.sportfinder.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,4 +33,5 @@ public class cursorAdapterDesportos extends CursorAdapter {
         TextView txtNomeDesporto= (TextView)view.findViewById(R.id.tv_Desporto);
         txtNomeDesporto.setText(mCursor.getString(cursor.getColumnIndexOrThrow("nome")));
     }
+
 }
