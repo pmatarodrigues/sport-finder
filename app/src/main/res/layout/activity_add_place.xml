@@ -31,7 +31,7 @@
             <EditText
                 android:drawableStart="@drawable/ic_icon_search2"
                 android:paddingLeft="10dp"
-                android:id="@+id/rectangle_search"
+                android:id="@+id/et_pesquisarDesportos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_rectangle_search"
@@ -43,18 +43,25 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/rectangle_search"
+                android:layout_below="@+id/et_pesquisarDesportos"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="80dp"
-                android:isScrollContainer="false">
+                android:isScrollContainer="false"
+                android:fillViewport="true"
+                >
 
-                <ListView
-                    android:id="@+id/scrollSportsList"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
-                </ListView>
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lv_listaDesporto"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="10dp"/>
+
+                </LinearLayout>
 
 
             </ScrollView>
@@ -73,12 +80,6 @@
                 />
 
         </RelativeLayout>
-
-
-
-
-
-
 
     </RelativeLayout>
 
