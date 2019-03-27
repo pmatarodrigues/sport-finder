@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,7 +33,7 @@ import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 import ipvc.estg.commov.sportfinder.adapter.cursorAdapterDesportos;
 
 
-public class ActivityAddPlace extends AppCompatActivity {
+public class ActivitySportSearch extends AppCompatActivity {
     private EditText et_pesquisarDespostos;
     private Button btnContinuar;
     private String[] Desportos = {"Futebol", "Tenis", "Golf", "Andebol"};
@@ -41,12 +42,16 @@ public class ActivityAddPlace extends AppCompatActivity {
     private cursorAdapterDesportos cursorAdapterDesportos;
     private ListView lv_listaDesporto;
 
+    //
+    private String whereToGo = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_place);
+        setContentView(R.layout.activity_sport_search);
 
-
+        //
+        whereToGo = getIntent().getStringExtra("GoTo");
         btnContinuar = (Button)findViewById(R.id.button_continuar);
         et_pesquisarDespostos=(EditText)findViewById(R.id.et_pesquisarDesportos);
 
@@ -55,8 +60,15 @@ public class ActivityAddPlace extends AppCompatActivity {
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityAddPlace.this, ActivityAddPlaceMap.class);
-                ActivityAddPlace.this.startActivity(intent);
+                if (whereToGo.equals("search")){
+                    Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFounded.class);
+                    ActivitySportSearch.this.startActivity(intent);
+                }else if (whereToGo.equals("add")){
+                    Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
+                    ActivitySportSearch.this.startActivity(intent);
+                }else{
+                    Toast.makeText(ActivitySportSearch.this, "Go Back and Try Again", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         preencherListaDesporto();
@@ -131,8 +143,9 @@ public class ActivityAddPlace extends AppCompatActivity {
 
     private void preencherListaDesporto(){
         criarCursor();
-        cursorAdapterDesportos= new cursorAdapterDesportos(ActivityAddPlace.this,matrixCursor);
+        cursorAdapterDesportos= new cursorAdapterDesportos( ActivitySportSearch.this,matrixCursor);
         lv_listaDesporto.setAdapter(cursorAdapterDesportos);
+
     }
 
     private void filtrarDesportos(String filtro){
@@ -145,7 +158,7 @@ public class ActivityAddPlace extends AppCompatActivity {
                         .add("nome", Desportos[i]);
             }
         }
-        cursorAdapterDesportos= new cursorAdapterDesportos(ActivityAddPlace.this,matrixCursor);
+        cursorAdapterDesportos= new cursorAdapterDesportos(ActivitySportSearch.this,matrixCursor);
         lv_listaDesporto.setAdapter(cursorAdapterDesportos);
     }
 }
