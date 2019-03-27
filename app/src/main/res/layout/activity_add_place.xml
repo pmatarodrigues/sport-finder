@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="40dp"
-
         >
 
         <View
@@ -29,9 +28,9 @@
             >
 
             <EditText
+                android:id="@+id/et_pesquisarDesportos"
                 android:drawableStart="@drawable/ic_icon_search2"
                 android:paddingLeft="10dp"
-                android:id="@+id/et_pesquisarDesportos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_rectangle_search"
@@ -41,9 +40,9 @@
                 />
 
             <ScrollView
+                android:layout_below="@+id/et_pesquisarDesportos"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/et_pesquisarDesportos"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="80dp"
                 android:isScrollContainer="false"
@@ -52,7 +51,8 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <ListView
                         android:layout_width="match_parent"
@@ -62,7 +62,6 @@
                         android:dividerHeight="10dp"/>
 
                 </LinearLayout>
-
 
             </ScrollView>
 
