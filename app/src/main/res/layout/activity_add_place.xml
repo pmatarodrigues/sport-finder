@@ -58,7 +58,10 @@
                         android:layout_marginTop="50dp"
                         android:layout_width="match_parent"
                         android:layout_height="300dp"
-                        android:id="@+id/lv_listaDesporto">
+                        android:id="@+id/lv_listaDesporto"
+                        android:divider="@android:color/transparent"
+                        android:dividerHeight="10dp"
+                        >
                     </ListView>
                 </LinearLayout>
 
