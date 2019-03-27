@@ -48,14 +48,13 @@
                 android:layout_marginBottom="80dp"
                 android:isScrollContainer="false">
 
-                <LinearLayout
+                <ListView
                     android:id="@+id/scrollSportsList"
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                </LinearLayout>
+                </ListView>
 
 
             </ScrollView>
