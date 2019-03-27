@@ -17,8 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:windowSoftInputMode="adjustPan">
-        <activity android:name=".ActivitySpotsFounded"></activity>
+        >
+        <activity android:name=".ActivitySpotsFounded" android:windowSoftInputMode="adjustPan"></activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -35,9 +35,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ActivityMainMenu" />
-        <activity android:name=".ActivitySportSearch" />
+        <activity android:name=".ActivitySportSearch" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ActivityAddPlaceMap" />
-        <activity android:name=".ActivityCreateAccount" />
+        <activity android:name=".ActivityCreateAccount" android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

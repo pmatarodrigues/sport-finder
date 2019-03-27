@@ -41,24 +41,18 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="80dp"
             android:layout_marginHorizontal="20dp"
-            android:isScrollContainer="false"
+
             android:fillViewport="true"
             android:id="@+id/scroll_sport_search"
             >
 
-            <LinearLayout
+            <ListView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ListView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/lv_listaDesporto"
-                    android:divider="@android:color/transparent"
-                    android:dividerHeight="10dp"/>
-
-            </LinearLayout>
-
+                android:layout_height="wrap_content"
+                android:id="@+id/lv_listaDesporto"
+                android:divider="@android:color/transparent"
+                android:isScrollContainer="false"
+                android:dividerHeight="10dp"/>
 
         </ScrollView>
 
