@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ipvc.estg.commov.sportfinder.adapter.cursorAdapterDesportos;
 
@@ -29,12 +30,17 @@ public class ActivitySportSearch extends AppCompatActivity {
     private cursorAdapterDesportos cursorAdapterDesportos;
     private ListView lt_listaDesporto;
 
+    //
+    private String whereToGo = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sport_search);
 
-
+        //
+        whereToGo = getIntent().getStringExtra("GoTo");
+        Toast.makeText(this, whereToGo, Toast.LENGTH_SHORT).show();
         btnContinuar = (Button)findViewById(R.id.button_continuar);
         et_pesquisarDespostos=(EditText)findViewById(R.id.et_pesquisarDesportos);
 
@@ -43,8 +49,15 @@ public class ActivitySportSearch extends AppCompatActivity {
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
-                ActivitySportSearch.this.startActivity(intent);
+                if (whereToGo.equals("search")){
+                    Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFounded.class);
+                    ActivitySportSearch.this.startActivity(intent);
+                }else if (whereToGo.equals("add")){
+                    Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
+                    ActivitySportSearch.this.startActivity(intent);
+                }else{
+                    Toast.makeText(ActivitySportSearch.this, "Go Back and Try Again", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         preencherListaDesporto();
