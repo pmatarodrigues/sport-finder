@@ -46,18 +46,20 @@
                 android:layout_below="@+id/rectangle_search"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="80dp"
-                android:isScrollContainer="false">
+                android:isScrollContainer="false"
+                android:fillViewport="true"
+                >
 
                 <LinearLayout
                     android:id="@+id/scrollSportsList"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <ListView
                         android:layout_marginTop="50dp"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
+                        android:layout_height="wrap_content"
                         android:id="@+id/lv_listaDesporto"
                         android:divider="@android:color/transparent"
                         android:dividerHeight="10dp"
