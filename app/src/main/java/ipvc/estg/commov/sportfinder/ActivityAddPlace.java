@@ -1,5 +1,6 @@
 package ipvc.estg.commov.sportfinder;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -17,6 +18,17 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.jar.JarException;
+
+import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 import ipvc.estg.commov.sportfinder.adapter.cursorAdapterDesportos;
 
 
@@ -83,6 +95,28 @@ public class ActivityAddPlace extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void getListaDesportos(View v){
+        String url="http://sportfinderapi.000webhostapp.com/slim/api/getDesportos";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                       try {
+                           JSONArray arr = response.getJSONArray("DATA");
+                       }catch (JarException ex){
+
+                       }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                     Log.d("TAG","pedro1234"+ error.getMessage());
+                    }
+        });
+        MySingleton.getIntance(this).addToRequestQueue(jsonObjectRequest);
     }
 
     private void criarCursor(){
