@@ -58,8 +58,6 @@ public class ActivitySportSearch extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (whereToGo.equals("search")){
-                    //TODO Remover antes de fazer push
-                    Toast.makeText(ActivitySportSearch.this, "Cities Found", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFound.class);
                     ActivitySportSearch.this.startActivity(intent);
                 }else if (whereToGo.equals("add")){

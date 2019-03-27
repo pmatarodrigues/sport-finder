@@ -42,13 +42,15 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="15dp"
             android:fillViewport="true"
-            android:scrollbars="none"
             >
             
             <ListView
                 android:id="@+id/spot_found_listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="10dp"
                 >
 
             </ListView>

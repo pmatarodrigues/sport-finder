@@ -31,6 +31,12 @@ public class cursorAdapterSpotsFound extends CursorAdapter {
         Log.d("TAG","mata123");
         //TextView txtNomeDesporto= (TextView)view.findViewById(R.id.tv_Desporto);
         //txtNomeDesporto.setText(mCursor.getString(cursor.getColumnIndexOrThrow("nome")));
+        TextView txtNomeLocal= (TextView)view.findViewById(R.id.txt_spot_name);
+        TextView txtAvalicao= (TextView)view.findViewById(R.id.txtEvaluation);
+        TextView txtDistancia= (TextView)view.findViewById(R.id.txtDistance);
+        txtNomeLocal.setText(mCursor.getString(cursor.getColumnIndexOrThrow("nome_local")));
+        txtAvalicao.setText(mCursor.getString(cursor.getColumnIndexOrThrow("avalicao")));
+        txtDistancia.setText(mCursor.getString(cursor.getColumnIndexOrThrow("distancia")));
     }
 
 }
