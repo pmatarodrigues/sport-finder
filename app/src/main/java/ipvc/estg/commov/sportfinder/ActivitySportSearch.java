@@ -20,7 +20,7 @@ import android.widget.TextView;
 import ipvc.estg.commov.sportfinder.adapter.cursorAdapterDesportos;
 
 
-public class ActivityAddPlace extends AppCompatActivity {
+public class ActivitySportSearch extends AppCompatActivity {
     private EditText et_pesquisarDespostos;
     private Button btnContinuar;
     private String[] Desportos = {"Futebol", "Tenis", "Golf", "Andebol"};
@@ -32,7 +32,7 @@ public class ActivityAddPlace extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_place);
+        setContentView(R.layout.activity_sport_search);
 
 
         btnContinuar = (Button)findViewById(R.id.button_continuar);
@@ -43,8 +43,8 @@ public class ActivityAddPlace extends AppCompatActivity {
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityAddPlace.this, ActivityAddPlaceMap.class);
-                ActivityAddPlace.this.startActivity(intent);
+                Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
+                ActivitySportSearch.this.startActivity(intent);
             }
         });
         preencherListaDesporto();
@@ -96,7 +96,7 @@ public class ActivityAddPlace extends AppCompatActivity {
 
     private void preencherListaDesporto(){
         criarCursor();
-        cursorAdapterDesportos= new cursorAdapterDesportos(ActivityAddPlace.this,matrixCursor);
+        cursorAdapterDesportos= new cursorAdapterDesportos(ActivitySportSearch.this,matrixCursor);
         lt_listaDesporto.setAdapter(cursorAdapterDesportos);
     }
 
@@ -110,7 +110,7 @@ public class ActivityAddPlace extends AppCompatActivity {
                         .add("nome", Desportos[i]);
             }
         }
-        cursorAdapterDesportos= new cursorAdapterDesportos(ActivityAddPlace.this,matrixCursor);
+        cursorAdapterDesportos= new cursorAdapterDesportos(ActivitySportSearch.this,matrixCursor);
         lt_listaDesporto.setAdapter(cursorAdapterDesportos);
     }
 }

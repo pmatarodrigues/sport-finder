@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ActivityMainMenu" />
-        <activity android:name=".ActivityAddPlace" />
+        <activity android:name=".ActivitySportSearch" />
         <activity android:name=".ActivityAddPlaceMap" />
         <activity android:name=".ActivityCreateAccount" />
     </application>

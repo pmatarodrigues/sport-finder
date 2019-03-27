@@ -19,7 +19,7 @@ public class ActivityMainMenu extends AppCompatActivity {
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityMainMenu.this, ActivityAddPlace.class);
+                Intent intent = new Intent(ActivityMainMenu.this, ActivitySportSearch.class);
                 ActivityMainMenu.this.startActivity(intent);
             }
         });
