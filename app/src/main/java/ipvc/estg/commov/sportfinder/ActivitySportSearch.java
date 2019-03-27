@@ -1,13 +1,11 @@
 package ipvc.estg.commov.sportfinder;
 
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.graphics.Color;
-import android.graphics.ColorSpace;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,8 +25,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.jar.JarException;
 
 import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 import ipvc.estg.commov.sportfinder.adapter.cursorAdapterDesportos;
@@ -62,7 +58,9 @@ public class ActivitySportSearch extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (whereToGo.equals("search")){
-                    Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFounded.class);
+                    //TODO Remover antes de fazer push
+                    Toast.makeText(ActivitySportSearch.this, "Cities Found", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFound.class);
                     ActivitySportSearch.this.startActivity(intent);
                 }else if (whereToGo.equals("add")){
                     Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);

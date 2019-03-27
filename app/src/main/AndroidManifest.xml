@@ -18,8 +18,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".ActivitySpotsFounded" android:windowSoftInputMode="adjustPan"></activity>
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -38,6 +36,7 @@
         <activity android:name=".ActivitySportSearch" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ActivityAddPlaceMap" />
         <activity android:name=".ActivityCreateAccount" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ActivitySpotsFound" android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>
