@@ -27,7 +27,7 @@ public class ActivityAddPlace extends AppCompatActivity {
     private Cursor cursorDesportos;
     private MatrixCursor matrixCursor;
     private cursorAdapterDesportos cursorAdapterDesportos;
-    private ListView lt_listaDesporto;
+    private ListView lv_listaDesporto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class ActivityAddPlace extends AppCompatActivity {
         btnContinuar = (Button)findViewById(R.id.button_continuar);
         et_pesquisarDespostos=(EditText)findViewById(R.id.et_pesquisarDesportos);
 
-        lt_listaDesporto=(ListView)findViewById(R.id.lv_listaDesporto);
+        lv_listaDesporto=(ListView)findViewById(R.id.lv_listaDesporto);
 
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,14 +71,15 @@ public class ActivityAddPlace extends AppCompatActivity {
             }
         });
 
-        lt_listaDesporto.setClickable(true);
-        lt_listaDesporto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lv_listaDesporto.setClickable(true);
+        lv_listaDesporto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                lt_listaDesporto.getChildAt(i).setBackgroundColor(Color.RED);
-                String aux=lt_listaDesporto.getChildAt(i).findViewById(R.id.tv_Desporto).toString();
-                Log.d("TAG","mata123478"+ aux);
+                lv_listaDesporto.getChildAt(i).setBackgroundColor(Color.RED);
+                TextView auxView = (TextView) view.findViewById(R.id.tv_Desporto);
+                String aux = auxView.getText().toString();
 
+                Log.d("TAG","mata123478 "+ aux);
             }
         });
 
@@ -97,7 +98,7 @@ public class ActivityAddPlace extends AppCompatActivity {
     private void preencherListaDesporto(){
         criarCursor();
         cursorAdapterDesportos= new cursorAdapterDesportos(ActivityAddPlace.this,matrixCursor);
-        lt_listaDesporto.setAdapter(cursorAdapterDesportos);
+        lv_listaDesporto.setAdapter(cursorAdapterDesportos);
     }
 
     private void filtrarDesportos(String filtro){
@@ -111,6 +112,6 @@ public class ActivityAddPlace extends AppCompatActivity {
             }
         }
         cursorAdapterDesportos= new cursorAdapterDesportos(ActivityAddPlace.this,matrixCursor);
-        lt_listaDesporto.setAdapter(cursorAdapterDesportos);
+        lv_listaDesporto.setAdapter(cursorAdapterDesportos);
     }
 }
