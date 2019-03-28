@@ -37,6 +37,8 @@
     <string name="warningEmailInUse">Email inserido já em uso</string>
     <string name="warningcredentialsInvalid">Credenciais inválidas</string>
 
+    <string name="chooseSport">Escolha pelo menos um Desporto!</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

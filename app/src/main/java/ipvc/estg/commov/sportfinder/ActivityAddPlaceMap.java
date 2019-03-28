@@ -96,7 +96,7 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
 
         Bundle bundle = getIntent().getExtras();
         //ArrayList<String> tempList = bundle.getStringArrayList("selectedSports");
-        ArrayList<String> tempList = bundle.getStringArrayList("selectedSports");
+        ArrayList<String> tempList = (ArrayList<String>) bundle.getStringArrayList("selectedSports");
 
         Toast.makeText(ActivityAddPlaceMap.this, "SEC " + String.valueOf(tempList.size()), Toast.LENGTH_SHORT).show();
 

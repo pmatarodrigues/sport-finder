@@ -50,7 +50,6 @@ public class ActivitySportSearch extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sport_search);
 
-
         //
         whereToGo = getIntent().getStringExtra("GoTo");
         btnContinuar = (Button)findViewById(R.id.button_continuar);
@@ -65,17 +64,25 @@ public class ActivitySportSearch extends AppCompatActivity{
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (whereToGo.equals("search")){
-                    Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFound.class);
-                    ActivitySportSearch.this.startActivity(intent);
-                }else if (whereToGo.equals("add")){
-                    Toast.makeText(ActivitySportSearch.this, "MAIN " + String.valueOf(listIdEscolhidos.size()), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
-                    intent.putStringArrayListExtra("selectedSports",listIdEscolhidos);
-                    ActivitySportSearch.this.startActivity(intent);
-                    criarListaIdEscolhidos();
-                }else{
-                    Toast.makeText(ActivitySportSearch.this, "Go Back and TCry Again", Toast.LENGTH_SHORT).show();
+                if(verificarEscolheuDesporto()){
+                    if (whereToGo.equals("search")){
+                        Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFound.class);
+                        ActivitySportSearch.this.startActivity(intent);
+                    }else if (whereToGo.equals("add")){
+                        criarListaIdEscolhidos();
+                        Toast.makeText(ActivitySportSearch.this, "MAIN " + String.valueOf(listIdEscolhidos.size()), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
+                       // intent.putStringArrayListExtra("selectedSports",listIdEscolhidos);
+                        Bundle b = new Bundle();
+                        b.putStringArrayList("selectedSports",listIdEscolhidos);
+                        intent.putExtras(b);
+                        ActivitySportSearch.this.startActivity(intent);
+
+                    }else{
+                        Toast.makeText(ActivitySportSearch.this, "Go Back and TCry Again", Toast.LENGTH_SHORT).show();
+                    }
+                }else {
+                    Toast.makeText(ActivitySportSearch.this, R.string.chooseSport, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -137,7 +144,6 @@ public class ActivitySportSearch extends AppCompatActivity{
                 }
             }
         });
-
     }
 
     private void getListaDesportos(){
@@ -203,6 +209,7 @@ public class ActivitySportSearch extends AppCompatActivity{
     }
 
     private void criarListaIdEscolhidos(){
+        listIdEscolhidos.clear();
         for(int j=0;j<listDesportosEscolhidos.size();j++){
             for(int i=0;i<listDesportos.size();i++) {
                 if(listDesportosEscolhidos.get(j).equals(listDesportos.get(i).getNome())){
@@ -210,6 +217,14 @@ public class ActivitySportSearch extends AppCompatActivity{
                 }
 
             }
+        }
+    }
+    private boolean verificarEscolheuDesporto(){
+        if(listDesportosEscolhidos.size()>0){
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
