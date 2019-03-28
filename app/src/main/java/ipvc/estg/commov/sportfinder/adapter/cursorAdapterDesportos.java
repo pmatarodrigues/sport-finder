@@ -37,14 +37,14 @@ public class cursorAdapterDesportos extends CursorAdapter {
 
             TextView txtNomeDesporto= (TextView)view.findViewById(R.id.tv_Desporto);
             txtNomeDesporto.setText(mCursor.getString(cursor.getColumnIndex("nome")));
-       /* for(int i=0;i<listDesportosEscolhidos.size();i++){
+            for(int i=0;i<listDesportosEscolhidos.size();i++){
             if(mCursor.getString(cursor.getColumnIndexOrThrow("nome")).equals(listDesportosEscolhidos.get(i))){
 
                 txtNomeDesporto.setBackgroundColor(Color.RED);
             }else {
                 txtNomeDesporto.setText(mCursor.getString(cursor.getColumnIndexOrThrow("nome")));
             }
-        }*/
+        }
 
     }
 

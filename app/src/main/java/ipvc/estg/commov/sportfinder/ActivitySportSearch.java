@@ -2,10 +2,6 @@ package ipvc.estg.commov.sportfinder;
 
 import android.content.Intent;
 import android.database.MatrixCursor;
-import android.graphics.Color;
-
-import android.graphics.drawable.Drawable;
-
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -32,15 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ipvc.estg.commov.sportfinder.Classes.Desporto;
-
 import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 import ipvc.estg.commov.sportfinder.adapter.cursorAdapterDesportos;
 
 public class ActivitySportSearch extends AppCompatActivity{
     private EditText et_pesquisarDespostos;
     private Button btnContinuar;
-   // private String[] Desportos = {"Futebol", "Tenis", "Golf", "Andebol"};
-   // private Cursor cursorDesportos;
     private MatrixCursor matrixCursor;
     private cursorAdapterDesportos cursorAdapterDesportos;
     private ListView lv_listaDesporto;
