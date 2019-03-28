@@ -18,6 +18,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -42,6 +47,12 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
     private GoogleMap mMap;
     private int STORAGE_PERMISSION_CODE = 23;
 
+    Spinner sp_Raio;
+    Button btnConfirmAddPlace;
+
+    EditText edtxt_descricaolocal;
+    EditText edtxt_nomedoparque;
+
     LocationManager locationManager;
     LocationListener locationListener;
 
@@ -56,10 +67,34 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_place_map);
+
+        // clear clicked location
         clickedLocation = null;
+
+        btnConfirmAddPlace = (Button)findViewById(R.id.btn_addplace);
+        sp_Raio = (Spinner)findViewById(R.id.sp_raio);
+        edtxt_descricaolocal = (EditText)findViewById(R.id.edtxt_descricaolocal);
+        edtxt_nomedoparque = (EditText)findViewById(R.id.edtxt_nomedoparque);
+
+        btnConfirmAddPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String selectedRaio = sp_Raio.getSelectedItem().toString();
+                LatLng selectedLocation = clickedLocation;
+                String selectedPlaceDescription = edtxt_descricaolocal.getText().toString();
+                String selectedNomeDoParque = edtxt_nomedoparque.getText().toString();
+
+                //TODO
+                //ADICIONAR CONFIRMAÇÃO
+                //LIGAÇÃO AO WEBSERVICE PARA ADICIONAR LOCAL COM ESTAS INFORMAÇÕES
+            }
+        });
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
     }
 
 
