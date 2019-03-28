@@ -3,7 +3,9 @@ package ipvc.estg.commov.sportfinder;
 import android.content.Intent;
 import android.database.MatrixCursor;
 import android.graphics.Color;
+
 import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ipvc.estg.commov.sportfinder.Classes.Desporto;
+
 import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 import ipvc.estg.commov.sportfinder.adapter.cursorAdapterDesportos;
 
@@ -66,7 +69,7 @@ public class ActivitySportSearch extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if (whereToGo.equals("search")){
-                    Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFounded.class);
+                    Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFound.class);
                     ActivitySportSearch.this.startActivity(intent);
                 }else if (whereToGo.equals("add")){
                     Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
@@ -138,6 +141,7 @@ public class ActivitySportSearch extends AppCompatActivity{
                            };
                            preencherListaDesporto();
                        }catch (JSONException ex){
+
                        }
                     }
                 }, new Response.ErrorListener() {
