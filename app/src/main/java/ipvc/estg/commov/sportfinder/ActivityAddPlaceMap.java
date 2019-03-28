@@ -39,6 +39,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
 import java.util.List;
 
 
@@ -84,6 +89,19 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
                 String selectedPlaceDescription = edtxt_descricaolocal.getText().toString();
                 String selectedNomeDoParque = edtxt_nomedoparque.getText().toString();
 
+                JSONObject newPlace = new JSONObject();
+                try {
+                    newPlace.put("newRaio", selectedRaio);
+                    newPlace.put("newLocation", selectedLocation);
+                    newPlace.put("newPlaceDescription", selectedPlaceDescription);
+                    newPlace.put("newPlaceName", selectedNomeDoParque);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(newPlace);
+
                 //TODO
                 //ADICIONAR CONFIRMAÇÃO
                 //LIGAÇÃO AO WEBSERVICE PARA ADICIONAR LOCAL COM ESTAS INFORMAÇÕES
@@ -101,6 +119,8 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
