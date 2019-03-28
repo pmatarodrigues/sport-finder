@@ -52,6 +52,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -107,7 +111,6 @@ public class ActivityParqueDetails extends AppCompatActivity
         // create GoogleApiClient
         createGoogleApi();
     }
-
 
     // Create GoogleApiClient instance
     private void createGoogleApi() {
@@ -310,7 +313,7 @@ public class ActivityParqueDetails extends AppCompatActivity
     }
 
     private static final long GEO_DURATION = 60 * 60 * 1000;
-    private static final String GEOFENCE_REQ_ID = "ESTG";
+    private static final String GEOFENCE_REQ_ID = "Local";
     private static final float GEOFENCE_RADIUS = 500.0f; // in meters
 
     // Start Geofence creation process
