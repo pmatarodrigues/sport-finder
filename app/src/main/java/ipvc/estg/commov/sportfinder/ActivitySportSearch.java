@@ -64,21 +64,17 @@ public class ActivitySportSearch extends AppCompatActivity{
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(verificarEscolheuDesporto()){
-                    if (whereToGo.equals("search")){
-                        Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFound.class);
-                        ActivitySportSearch.this.startActivity(intent);
-                    }else if (whereToGo.equals("add")){
-                        criarListaIdEscolhidos();
-                        Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
-                        intent.putStringArrayListExtra("selectedSports",listIdEscolhidos);
-                        ActivitySportSearch.this.startActivity(intent);
-
-                    }else{
-                        Toast.makeText(ActivitySportSearch.this, "Go Back and TCry Again", Toast.LENGTH_SHORT).show();
-                    }
-                }else {
-                    Toast.makeText(ActivitySportSearch.this, R.string.chooseSport, Toast.LENGTH_LONG).show();
+                if (whereToGo.equals("search")){
+                    Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFound.class);
+                    ActivitySportSearch.this.startActivity(intent);
+                }else if (whereToGo.equals("add")){
+                    Toast.makeText(ActivitySportSearch.this, "MAIN " + String.valueOf(listIdEscolhidos.size()), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
+                    intent.putStringArrayListExtra("selectedSports",listIdEscolhidos);
+                    ActivitySportSearch.this.startActivity(intent);
+                    criarListaIdEscolhidos();
+                }else{
+                    Toast.makeText(ActivitySportSearch.this, "Go Back and TCry Again", Toast.LENGTH_SHORT).show();
                 }
             }
         });
