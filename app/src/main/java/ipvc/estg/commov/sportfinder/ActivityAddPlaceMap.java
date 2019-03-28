@@ -44,7 +44,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Array;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReadyCallback {
@@ -114,6 +116,8 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
 
 
     }
+
+
 
 
     @Override
