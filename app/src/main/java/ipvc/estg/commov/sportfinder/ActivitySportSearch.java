@@ -68,11 +68,15 @@ public class ActivitySportSearch extends AppCompatActivity{
                     Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFound.class);
                     ActivitySportSearch.this.startActivity(intent);
                 }else if (whereToGo.equals("add")){
+                    criarListaIdEscolhidos();
                     Toast.makeText(ActivitySportSearch.this, "MAIN " + String.valueOf(listIdEscolhidos.size()), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
-                    intent.putStringArrayListExtra("selectedSports",listIdEscolhidos);
+                   // intent.putStringArrayListExtra("selectedSports",listIdEscolhidos);
+                    Bundle b = new Bundle();
+                    b.putStringArrayList("selectedSports",listIdEscolhidos);
+                    intent.putExtras(b);
                     ActivitySportSearch.this.startActivity(intent);
-                    criarListaIdEscolhidos();
+
                 }else{
                     Toast.makeText(ActivitySportSearch.this, "Go Back and TCry Again", Toast.LENGTH_SHORT).show();
                 }
@@ -202,6 +206,7 @@ public class ActivitySportSearch extends AppCompatActivity{
     }
 
     private void criarListaIdEscolhidos(){
+        listIdEscolhidos.clear();
         for(int j=0;j<listDesportosEscolhidos.size();j++){
             for(int i=0;i<listDesportos.size();i++) {
                 if(listDesportosEscolhidos.get(j).equals(listDesportos.get(i).getNome())){
