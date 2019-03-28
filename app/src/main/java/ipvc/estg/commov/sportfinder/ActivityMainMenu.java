@@ -9,6 +9,7 @@ import android.widget.Button;
 public class ActivityMainMenu extends AppCompatActivity {
 
     Button buttonAdd;
+    Button buttonProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,10 +17,20 @@ public class ActivityMainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         buttonAdd = (Button) findViewById(R.id.button_add_main_menu);
+        buttonProfile = (Button)findViewById(R.id.button_profile_main_menu);
+
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivityMainMenu.this, ActivitySportSearch.class);
+                ActivityMainMenu.this.startActivity(intent);
+            }
+        });
+
+        buttonProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityMainMenu.this, ActivityUserAccount.class);
                 ActivityMainMenu.this.startActivity(intent);
             }
         });

@@ -38,7 +38,8 @@
         <activity android:name=".ActivitySportSearch" />
         <activity android:name=".ActivityAddPlaceMap" />
         <activity android:name=".ActivityCreateAccount" />
-        <activity android:name=".ActivityParqueDetails"></activity>
+        <activity android:name=".ActivityParqueDetails" />
+        <activity android:name=".ActivityUserAccount"></activity>
     </application>
 
 </manifest>
