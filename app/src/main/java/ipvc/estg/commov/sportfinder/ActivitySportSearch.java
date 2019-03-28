@@ -3,6 +3,7 @@ package ipvc.estg.commov.sportfinder;
 import android.content.Intent;
 import android.database.MatrixCursor;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -68,7 +69,7 @@ public class ActivitySportSearch extends AppCompatActivity{
                     Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
                     ActivitySportSearch.this.startActivity(intent);
                 }else{
-                    Toast.makeText(ActivitySportSearch.this, "Go Back and Try Again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ActivitySportSearch.this, "Go Back and TCry Again", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -108,7 +109,7 @@ public class ActivitySportSearch extends AppCompatActivity{
                 Log.d("TAG","NOME DO DESPORTO: "+nomeDesportoSlect + "index: "+i);
                 listDesportosEscolhidos.add(nomeDesportoSlect);
                 //lv_listaDesporto.getChildAt(i).setBackgroundColor(Color.RED);
-                view.setBackgroundColor(R.drawable.background_list_item_selected);
+                view.setBackground(ContextCompat.getDrawable(ActivitySportSearch.this, R.drawable.background_list_item_selected));
             }
         });
 
