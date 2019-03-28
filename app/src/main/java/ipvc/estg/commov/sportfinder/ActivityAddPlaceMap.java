@@ -234,6 +234,9 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
         };
         MySingleton.getIntance(ActivityAddPlaceMap.this).addToRequestQueue(postRequest);
 
+        Intent intent = new Intent(ActivityAddPlaceMap.this, ActivityMainMenu.class);
+        ActivityAddPlaceMap.this.startActivity(intent);
+
     }
 
 
