@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@drawable/background_list_item_unselected"
+    >
+
+    <ImageView
+        android:id="@+id/img_spot_encontrado"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/exemplo_local"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/img_spot_encontrado"
+        android:paddingLeft="10dp"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Parque “Lago dos Patos”"
+            android:textColor="@color/colorBlack"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/txt_spot_name"/>
+
+        <TextView
+            android:layout_below="@id/txt_spot_name"
+            android:layout_alignLeft="@+id/txt_spot_name"
+            android:drawableLeft="@drawable/ic_icon_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="4.3"
+            android:id="@+id/txtEvaluation"/>
+
+        <TextView
+            android:layout_below="@id/txt_spot_name"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14dp"
+            android:text="200m"
+            android:layout_marginRight="40dp"
+            android:id="@+id/txtDistance"/>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

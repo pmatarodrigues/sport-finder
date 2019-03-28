@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainmenu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_rectangle"
-    tools:context=".ActivitySportSearch">
+    tools:context=".ActivitySpotsFound">
 
     <RelativeLayout
-        android:id="@+id/relativeAddPlace"
+        android:id="@+id/relative"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="40dp"
@@ -22,51 +22,41 @@
             android:background="@drawable/background_rectangle_gray" />
 
         <EditText
-            android:id="@+id/et_pesquisarDesportos"
+            android:id="@+id/pesquisarCidade_spots_founded"
             android:drawableStart="@drawable/ic_icon_search2"
             android:paddingLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/background_rectangle_search"
             android:elevation="20dp"
-            android:hint="@string/search_hint"
+            android:hint="@string/citySearch_hint"
             android:layout_marginHorizontal="40dp"
             android:layout_alignParentTop="true"
             />
 
         <ScrollView
-            android:layout_below="@+id/et_pesquisarDesportos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="80dp"
-            android:layout_marginHorizontal="20dp"
             android:isScrollContainer="false"
+            android:layout_below="@id/pesquisarCidade_spots_founded"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
             android:fillViewport="true"
-            android:id="@+id/scroll_sport_search"
             >
-
+            
             <ListView
+                android:id="@+id/spot_found_listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/lv_listaDesporto"
+                android:scrollbars="none"
                 android:divider="@android:color/transparent"
-                android:dividerHeight="10dp"/>
+                android:dividerHeight="10dp"
+                >
 
+            </ListView>
+            
         </ScrollView>
 
-        <Button
-            android:id="@+id/button_continuar"
-            android:text="@string/text_continue"
-            android:textColor="@color/colorWhite"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginHorizontal="30dp"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/background_button_confirm"
-            android:layout_marginBottom="20dp"
-            />
 
     </RelativeLayout>
 

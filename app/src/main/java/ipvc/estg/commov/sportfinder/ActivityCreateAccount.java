@@ -28,7 +28,7 @@ public class ActivityCreateAccount extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
         //
-        
+
         //incialização de variaveis
         //EditText
         et_email=(EditText)findViewById(R.id.et_email);

@@ -8,18 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.List;
 
 import ipvc.estg.commov.sportfinder.R;
 
 public class cursorAdapterDesportos extends CursorAdapter {
     private Context mContext;
     private Cursor mCursor;
+    private List<String> listDesportosEscolhidos;
 
-    public cursorAdapterDesportos(Context context, Cursor c) {
+    public cursorAdapterDesportos(Context context, Cursor c, List<String> teste) {
         super(context, c,0);
         this.mContext = context;
         this.mCursor = c;
+        this.listDesportosEscolhidos=teste;
     }
 
     @Override
@@ -29,9 +34,18 @@ public class cursorAdapterDesportos extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        Log.d("TAG","mata123");
-        TextView txtNomeDesporto= (TextView)view.findViewById(R.id.tv_Desporto);
-        txtNomeDesporto.setText(mCursor.getString(cursor.getColumnIndexOrThrow("nome")));
+
+            TextView txtNomeDesporto= (TextView)view.findViewById(R.id.tv_Desporto);
+            txtNomeDesporto.setText(mCursor.getString(cursor.getColumnIndex("nome")));
+       /* for(int i=0;i<listDesportosEscolhidos.size();i++){
+            if(mCursor.getString(cursor.getColumnIndexOrThrow("nome")).equals(listDesportosEscolhidos.get(i))){
+
+                txtNomeDesporto.setBackgroundColor(Color.RED);
+            }else {
+                txtNomeDesporto.setText(mCursor.getString(cursor.getColumnIndexOrThrow("nome")));
+            }
+        }*/
+
     }
 
 }
