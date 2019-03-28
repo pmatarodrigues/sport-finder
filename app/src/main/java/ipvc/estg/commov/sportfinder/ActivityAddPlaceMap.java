@@ -30,6 +30,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -97,8 +98,8 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
         Bundle bundle = getIntent().getExtras();
         //ArrayList<String> tempList = bundle.getStringArrayList("selectedSports");
         ArrayList<String> tempList = (ArrayList<String>) bundle.getStringArrayList("selectedSports");
-
-        Toast.makeText(ActivityAddPlaceMap.this, "SEC " + String.valueOf(tempList.size()), Toast.LENGTH_SHORT).show();
+        listIdEscolhidos = tempList;
+        //Toast.makeText(ActivityAddPlaceMap.this, "SEC " + String.valueOf(tempList.size()), Toast.LENGTH_SHORT).show();
 
         // clear clicked location
         clickedLocation = null;
@@ -119,10 +120,6 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
                 selectedNomeDoParque = edtxt_nomedoparque.getText().toString();
 
                clickPost();
-
-                //TODO
-                //ADICIONAR CONFIRMAÇÃO
-                //LIGAÇÃO AO WEBSERVICE PARA ADICIONAR LOCAL COM ESTAS INFORMAÇÕES
             }
         });
 
@@ -135,7 +132,6 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
     // POST DATA TO SERVER
     public void clickPost(){
         String url = "http://sportfinderapi.000webhostapp.com/slim/api/adicionarlocal";
-
 
         switch (selectedRaioString.toString()){
             case "100m":
@@ -173,36 +169,28 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
                                 String idResponse = response.getString("id");
                                 String url = "http://sportfinderapi.000webhostapp.com/slim/api/adicionarlocaldesportos";
 
-                                //JSONObject aux = new JSONObject();
-                                //aux.put("desporto_id", 2);
-                                //aux.put("localidade_id", idResponse);
-                                //JSONArray desportos = new JSONArray();
-                                //ArrayList<JSONObject> refDesportos = new ArrayList<>();
-                                /*
-                                for(int i= 0; i<2;i++){
-                                    JSONObject aux = new JSONObject();
-                                    aux.put("desporto_id", i+2);
-                                    aux.put("localidade_id", idResponse);
-                                    refDesportos.add(aux);
+                                // ADICIONAR DESPORTOS RECEBIDOS DA ATIVIDADE ANTERIOR
+                                // PERCORRE DESPORTOS TODOS
+                                // ADICIONA A JSON ARRAY
+                                JSONArray arrayDesportosNewPlace = new JSONArray();
+                                for(int i= 0 ; i<listIdEscolhidos.size() ; i++){
+                                    JSONObject desportoAdicionado = new JSONObject();
+                                    desportoAdicionado.put("desporto_id", String.valueOf(listIdEscolhidos.get(i)));
+                                    desportoAdicionado.put("localidade_id", idResponse);
+                                    arrayDesportosNewPlace.put(desportoAdicionado);
                                 }
-                                */
-                                //desportos.put(refDesportos);
 
-                                final Map<String, String> newPlaceSport = new HashMap<String, String>();
-                                newPlaceSport.put("desporto_id", "2");
-                                newPlaceSport.put("localidade_id", idResponse);
-
-
-                                JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
-                                        new JSONObject(newPlaceSport),
-                                        new Response.Listener<JSONObject>() {
+                                // FAZ JSON ARRAY REQUEST PARA ENVIAR DADOS PARA O WEB SERVICE
+                                JsonArrayRequest postRequest = new JsonArrayRequest(Request.Method.POST, url,
+                                        arrayDesportosNewPlace,
+                                        new Response.Listener<JSONArray>() {
                                             @Override
-                                            public void onResponse(JSONObject response) {
+                                            public void onResponse(JSONArray response) {
                                                 try {
-                                                    if (response.getBoolean("status")) {
-                                                        Toast.makeText(ActivityAddPlaceMap.this, response.getString("MSG"), Toast.LENGTH_SHORT).show();
+                                                    if (response.getJSONObject(0).getBoolean("status")) {
+                                                        Toast.makeText(ActivityAddPlaceMap.this, "Sucesso", Toast.LENGTH_SHORT).show();
                                                     } else {
-                                                        Toast.makeText(ActivityAddPlaceMap.this, response.getString("MSG"), Toast.LENGTH_SHORT).show();
+                                                        //Toast.makeText(ActivityAddPlaceMap.this, response.getJSONObject(0).getString("MSG"), Toast.LENGTH_SHORT).show();
                                                     }
                                                 } catch (JSONException ex) {}
                                             }
@@ -210,7 +198,7 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
                                         new Response.ErrorListener() {
                                             @Override
                                             public void onErrorResponse(VolleyError error) {
-                                                Toast.makeText(ActivityAddPlaceMap.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                                                //Toast.makeText(ActivityAddPlaceMap.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         }) {
                                     @Override
