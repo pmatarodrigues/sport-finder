@@ -45,6 +45,7 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
     LocationManager locationManager;
     LocationListener locationListener;
 
+    LatLng clickedLocation;
     LocationManager mLocationManager;
 
 
@@ -55,7 +56,7 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_place_map);
-
+        clickedLocation = null;
 
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -65,6 +66,24 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                MarkerOptions markerOptions = new MarkerOptions();
+
+                markerOptions.position(latLng);
+
+                markerOptions.title("Novo Parque");
+
+                mMap.clear();
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+
+                mMap.addMarker(markerOptions);
+
+                clickedLocation = latLng;
+            }
+        });
 
         // Zoom into users location
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -141,7 +160,6 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
 
         LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.clear();
-        mMap.addMarker(new MarkerOptions().position(userLocation).title(title));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 12));
 
     }
