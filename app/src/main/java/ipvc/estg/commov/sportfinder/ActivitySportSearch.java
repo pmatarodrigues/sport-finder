@@ -50,6 +50,7 @@ public class ActivitySportSearch extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sport_search);
 
+
         //
         whereToGo = getIntent().getStringExtra("GoTo");
         btnContinuar = (Button)findViewById(R.id.button_continuar);
@@ -68,6 +69,7 @@ public class ActivitySportSearch extends AppCompatActivity{
                     Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFound.class);
                     ActivitySportSearch.this.startActivity(intent);
                 }else if (whereToGo.equals("add")){
+                    Toast.makeText(ActivitySportSearch.this, "MAIN " + String.valueOf(listIdEscolhidos.size()), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ActivitySportSearch.this, ActivityAddPlaceMap.class);
                     intent.putStringArrayListExtra("selectedSports",listIdEscolhidos);
                     ActivitySportSearch.this.startActivity(intent);

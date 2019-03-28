@@ -83,6 +83,8 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
     String selectedPlaceDescription;
     String selectedNomeDoParque;
 
+    ArrayList<String> listIdEscolhidos;
+
 
     private String PROVIDER = LocationManager.GPS_PROVIDER;
 
@@ -91,6 +93,12 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_place_map);
+
+        Bundle bundle = getIntent().getExtras();
+        //ArrayList<String> tempList = bundle.getStringArrayList("selectedSports");
+        ArrayList<String> tempList = bundle.getStringArrayList("selectedSports");
+
+        Toast.makeText(ActivityAddPlaceMap.this, "SEC " + String.valueOf(tempList.size()), Toast.LENGTH_SHORT).show();
 
         // clear clicked location
         clickedLocation = null;
