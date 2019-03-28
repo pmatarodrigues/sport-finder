@@ -60,6 +60,7 @@
                         android:weightSum="4" >
 
                         <EditText
+                            android:id="@+id/edtxt_nomedoparque"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -67,9 +68,11 @@
                             />
 
                         <Spinner
+                            android:id="@+id/sp_raio"
                             android:layout_weight="3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:entries="@array/spinnerRaio"
                             >
                         </Spinner>
 
@@ -78,6 +81,7 @@
                     </LinearLayout>
 
                     <EditText
+                        android:id="@+id/edtxt_descricaolocal"
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"

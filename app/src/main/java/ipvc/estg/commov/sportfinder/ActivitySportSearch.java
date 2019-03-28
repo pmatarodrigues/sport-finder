@@ -1,9 +1,11 @@
 package ipvc.estg.commov.sportfinder;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.graphics.Color;
+
+import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -26,18 +28,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ipvc.estg.commov.sportfinder.Classes.Desporto;
+
 import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 import ipvc.estg.commov.sportfinder.adapter.cursorAdapterDesportos;
 
-
-public class ActivitySportSearch extends AppCompatActivity {
+public class ActivitySportSearch extends AppCompatActivity{
     private EditText et_pesquisarDespostos;
     private Button btnContinuar;
-    private String[] Desportos = {"Futebol", "Tenis", "Golf", "Andebol"};
-    private Cursor cursorDesportos;
+   // private String[] Desportos = {"Futebol", "Tenis", "Golf", "Andebol"};
+   // private Cursor cursorDesportos;
     private MatrixCursor matrixCursor;
     private cursorAdapterDesportos cursorAdapterDesportos;
     private ListView lv_listaDesporto;
+    private List<Desporto> listDesportos;
+    private List<String> listDesportosEscolhidos;
 
     //
     private String whereToGo = "";
@@ -54,6 +62,9 @@ public class ActivitySportSearch extends AppCompatActivity {
 
         lv_listaDesporto=(ListView)findViewById(R.id.lv_listaDesporto);
 
+        listDesportos= new ArrayList<>();
+        listDesportosEscolhidos= new ArrayList<>();
+
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,11 +79,12 @@ public class ActivitySportSearch extends AppCompatActivity {
                 }
             }
         });
-        preencherListaDesporto();
+        ;
+        getListaDesportos();
+
         et_pesquisarDespostos.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d("TAG","pedro1234"+charSequence);
             }
 
             @Override
@@ -83,12 +95,11 @@ public class ActivitySportSearch extends AppCompatActivity {
                 }else{
                     preencherListaDesporto();
                 }
-                Log.d("TAG", "pedro1235"+charSequence+" "+charSequence.length());
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.d("TAG","pedro1236");
             }
         });
 
@@ -96,27 +107,41 @@ public class ActivitySportSearch extends AppCompatActivity {
         lv_listaDesporto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                lv_listaDesporto.getChildAt(i).setBackgroundColor(Color.RED);
-                TextView auxView = (TextView) view.findViewById(R.id.tv_Desporto);
-                String aux = auxView.getText().toString();
 
-                Log.d("TAG","mata123478 "+ aux);
+                TextView auxView = (TextView) view.findViewById(R.id.tv_Desporto);
+
+                String nomeDesportoSlect = auxView.getText().toString();
+
+                Log.d("TAG","NOME DO DESPORTO: "+nomeDesportoSlect + "index: "+i);
+                listDesportosEscolhidos.add(nomeDesportoSlect);
+                //lv_listaDesporto.getChildAt(i).setBackgroundColor(Color.RED);
+                view.setBackgroundColor(R.drawable.background_list_item_selected);
             }
         });
 
     }
 
-    private void getListaDesportos(View v){
+    private void getListaDesportos(){
         String url="http://sportfinderapi.000webhostapp.com/slim/api/getDesportos";
+        Desporto desporto= new Desporto();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                        try {
+                           Desporto desporto;
                            JSONArray arr = response.getJSONArray("DATA");
-                       } catch (JSONException e) {
-                           e.printStackTrace();
+                           for(int i=0;i<arr.length();i++){
+                               desporto= new Desporto();
+                               JSONObject obj=arr.optJSONObject(i);
+                               desporto.setId(obj.getString("id"));
+                               desporto.setNome(obj.getString("nome"));
+                               listDesportos.add(desporto);
+                           };
+                           preencherListaDesporto();
+                       }catch (JSONException ex){
+
                        }
                     }
                 }, new Response.ErrorListener() {
@@ -130,32 +155,32 @@ public class ActivitySportSearch extends AppCompatActivity {
 
     private void criarCursor(){
         matrixCursor= new MatrixCursor(new String[] {"_ID","nome"});
-        Log.d("TAG","pedro123456"+Desportos.length+Desportos[0]);
-        for(int i=0;i<Desportos.length;i++){
+        for(int i=0;i<listDesportos.size();i++){
            matrixCursor.newRow()
-                   .add("_ID",i)
-                   .add("nome",Desportos[i]);
+                   .add("_ID",listDesportos.get(i).getId())
+                   .add("nome",listDesportos.get(i).getNome());
         }
     }
 
     private void preencherListaDesporto(){
         criarCursor();
-        cursorAdapterDesportos= new cursorAdapterDesportos( ActivitySportSearch.this,matrixCursor);
+        cursorAdapterDesportos= new cursorAdapterDesportos( ActivitySportSearch.this,matrixCursor, listDesportosEscolhidos);
+
         lv_listaDesporto.setAdapter(cursorAdapterDesportos);
 
     }
 
     private void filtrarDesportos(String filtro){
         matrixCursor= new MatrixCursor(new String[] {"_ID","nome"});
-        Log.d("TAG","pedro123456"+Desportos.length+Desportos[0]);
-        for(int i=0;i<Desportos.length;i++){
-            if(Desportos[i].toLowerCase().contains(filtro.toLowerCase())) {
+        for(int i=0;i<listDesportos.size();i++){
+            if(listDesportos.get(i).getNome().toLowerCase().contains(filtro.toLowerCase())) {
                 matrixCursor.newRow()
                         .add("_ID", i)
-                        .add("nome", Desportos[i]);
+                        .add("nome", listDesportos.get(i).getNome());
             }
         }
-        cursorAdapterDesportos= new cursorAdapterDesportos(ActivitySportSearch.this,matrixCursor);
+        cursorAdapterDesportos= new cursorAdapterDesportos(ActivitySportSearch.this,matrixCursor,listDesportosEscolhidos);
         lv_listaDesporto.setAdapter(cursorAdapterDesportos);
     }
+
 }
