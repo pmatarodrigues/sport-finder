@@ -47,7 +47,7 @@ public class ActivityMainMenu extends AppCompatActivity {
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityMainMenu.this, ActivityUserAccount.class);
+                Intent intent = new Intent(ActivityMainMenu.this, ActivityParqueDetails.class);
                 ActivityMainMenu.this.startActivity(intent);
             }
         });

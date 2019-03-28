@@ -63,13 +63,13 @@
                             android:id="@+id/edtxt_nomedoparque"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:hint="Nome do Parque"
                             />
 
                         <Spinner
                             android:id="@+id/sp_raio"
-                            android:layout_weight="3"
+                            android:layout_weight="2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:entries="@array/spinnerRaio"

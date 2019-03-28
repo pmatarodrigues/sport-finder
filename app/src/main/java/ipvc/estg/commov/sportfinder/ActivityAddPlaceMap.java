@@ -23,8 +23,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
@@ -42,15 +48,20 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ipvc.estg.commov.sportfinder.Classes.MySingleton;
+
 
 public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReadyCallback {
 
+    private static final String TAG = ActivityAddPlaceMap.class.getSimpleName();
     private GoogleMap mMap;
     private int STORAGE_PERMISSION_CODE = 23;
 
@@ -65,6 +76,12 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
 
     LatLng clickedLocation;
     LocationManager mLocationManager;
+
+    String selectedRaioString;
+    String selectedRaio;
+    LatLng selectedLocation;
+    String selectedPlaceDescription;
+    String selectedNomeDoParque;
 
 
     private String PROVIDER = LocationManager.GPS_PROVIDER;
@@ -86,23 +103,14 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
         btnConfirmAddPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String selectedRaio = sp_Raio.getSelectedItem().toString();
-                LatLng selectedLocation = clickedLocation;
-                String selectedPlaceDescription = edtxt_descricaolocal.getText().toString();
-                String selectedNomeDoParque = edtxt_nomedoparque.getText().toString();
+                TextView txtView = (TextView)sp_Raio.getSelectedView();
+                selectedRaioString = txtView.getText().toString();
+                //selectedRaioString = sp_Raio.getSelectedItem().toString();
+                selectedLocation = clickedLocation;
+                selectedPlaceDescription = edtxt_descricaolocal.getText().toString();
+                selectedNomeDoParque = edtxt_nomedoparque.getText().toString();
 
-                JSONObject newPlace = new JSONObject();
-                try {
-                    newPlace.put("newRaio", selectedRaio);
-                    newPlace.put("newLocation", selectedLocation);
-                    newPlace.put("newPlaceDescription", selectedPlaceDescription);
-                    newPlace.put("newPlaceName", selectedNomeDoParque);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                JSONArray jsonArray = new JSONArray();
-                jsonArray.put(newPlace);
+               clickPost();
 
                 //TODO
                 //ADICIONAR CONFIRMAÇÃO
@@ -113,7 +121,122 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+    }
 
+
+    // POST DATA TO SERVER
+    public void clickPost(){
+        String url = "http://sportfinderapi.000webhostapp.com/slim/api/adicionarlocal";
+
+
+        switch (selectedRaioString.toString()){
+            case "100m":
+                selectedRaio = "100";
+                break;
+            case "200m":
+                selectedRaio = "200";
+                break;
+            case "500m":
+                selectedRaio = "500";
+                break;
+            case "1km":
+                selectedRaio = "1000";
+                break;
+            case "5km":
+                selectedRaio = "5000";
+                break;
+        }
+
+
+        final Map<String, String> newPlacelocalidade = new HashMap<String, String>();
+        newPlacelocalidade.put("coordenadas", selectedLocation.latitude + "," + selectedLocation.longitude);
+        newPlacelocalidade.put("descricao", selectedPlaceDescription);
+        newPlacelocalidade.put("nome", selectedNomeDoParque);
+        newPlacelocalidade.put("raio", selectedRaio);
+        newPlacelocalidade.put("utilizador_id", "1");
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
+                new JSONObject(newPlacelocalidade),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.getBoolean("status")) {
+                                String idResponse = response.getString("id");
+                                String url = "http://sportfinderapi.000webhostapp.com/slim/api/adicionarlocaldesportos";
+
+                                //JSONObject aux = new JSONObject();
+                                //aux.put("desporto_id", 2);
+                                //aux.put("localidade_id", idResponse);
+                                //JSONArray desportos = new JSONArray();
+                                //ArrayList<JSONObject> refDesportos = new ArrayList<>();
+                                /*
+                                for(int i= 0; i<2;i++){
+                                    JSONObject aux = new JSONObject();
+                                    aux.put("desporto_id", i+2);
+                                    aux.put("localidade_id", idResponse);
+                                    refDesportos.add(aux);
+                                }
+                                */
+                                //desportos.put(refDesportos);
+
+                                final Map<String, String> newPlaceSport = new HashMap<String, String>();
+                                newPlaceSport.put("desporto_id", "2");
+                                newPlaceSport.put("localidade_id", idResponse);
+
+
+                                JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
+                                        new JSONObject(newPlaceSport),
+                                        new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+                                                try {
+                                                    if (response.getBoolean("status")) {
+                                                        Toast.makeText(ActivityAddPlaceMap.this, response.getString("MSG"), Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        Toast.makeText(ActivityAddPlaceMap.this, response.getString("MSG"), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                } catch (JSONException ex) {}
+                                            }
+                                        },
+                                        new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Toast.makeText(ActivityAddPlaceMap.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }) {
+                                    @Override
+                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                        HashMap<String, String> headers = new HashMap<String, String>();
+                                        headers.put("Content-Type", "application/json; charset=utf-8");
+                                        headers.put("User-agent", System.getProperty("http.agent"));
+                                        return headers;
+                                    }
+                                };
+                                MySingleton.getIntance(ActivityAddPlaceMap.this).addToRequestQueue(postRequest);
+
+                                Toast.makeText(ActivityAddPlaceMap.this, response.getString("MSG"), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ActivityAddPlaceMap.this, response.getString("MSG"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException ex) {}
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ActivityAddPlaceMap.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("User-agent", System.getProperty("http.agent"));
+                return headers;
+            }
+        };
+        MySingleton.getIntance(ActivityAddPlaceMap.this).addToRequestQueue(postRequest);
 
     }
 
