@@ -1,13 +1,11 @@
 package ipvc.estg.commov.sportfinder;
 
-import android.app.DownloadManager;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.graphics.Color;
-import android.graphics.ColorSpace;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -30,22 +28,21 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.jar.JarException;
 
 import ipvc.estg.commov.sportfinder.Classes.Desporto;
 import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 import ipvc.estg.commov.sportfinder.adapter.cursorAdapterDesportos;
 
-
-public class ActivitySportSearch extends AppCompatActivity {
+public class ActivitySportSearch extends AppCompatActivity{
     private EditText et_pesquisarDespostos;
     private Button btnContinuar;
-    private String[] Desportos = {"Futebol", "Tenis", "Golf", "Andebol"};
-    private Cursor cursorDesportos;
+   // private String[] Desportos = {"Futebol", "Tenis", "Golf", "Andebol"};
+   // private Cursor cursorDesportos;
     private MatrixCursor matrixCursor;
     private cursorAdapterDesportos cursorAdapterDesportos;
     private ListView lv_listaDesporto;
     private List<Desporto> listDesportos;
+    private List<String> listDesportosEscolhidos;
 
     //
     private String whereToGo = "";
@@ -61,7 +58,9 @@ public class ActivitySportSearch extends AppCompatActivity {
         et_pesquisarDespostos=(EditText)findViewById(R.id.et_pesquisarDesportos);
 
         lv_listaDesporto=(ListView)findViewById(R.id.lv_listaDesporto);
+
         listDesportos= new ArrayList<>();
+        listDesportosEscolhidos= new ArrayList<>();
 
         btnContinuar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +76,7 @@ public class ActivitySportSearch extends AppCompatActivity {
                 }
             }
         });
-
-        preencherListaDesporto();
+        ;
         getListaDesportos();
 
         et_pesquisarDespostos.addTextChangedListener(new TextWatcher() {
@@ -106,9 +104,15 @@ public class ActivitySportSearch extends AppCompatActivity {
         lv_listaDesporto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                lv_listaDesporto.getChildAt(i).setBackgroundColor(Color.RED);
+
                 TextView auxView = (TextView) view.findViewById(R.id.tv_Desporto);
-                String aux = auxView.getText().toString();
+
+                String nomeDesportoSlect = auxView.getText().toString();
+
+                Log.d("TAG","NOME DO DESPORTO: "+nomeDesportoSlect + "index: "+i);
+                listDesportosEscolhidos.add(nomeDesportoSlect);
+                //lv_listaDesporto.getChildAt(i).setBackgroundColor(Color.RED);
+                view.setBackgroundColor(R.drawable.background_list_item_selected);
             }
         });
 
@@ -132,6 +136,7 @@ public class ActivitySportSearch extends AppCompatActivity {
                                desporto.setNome(obj.getString("nome"));
                                listDesportos.add(desporto);
                            };
+                           preencherListaDesporto();
                        }catch (JSONException ex){
                        }
                     }
@@ -145,9 +150,6 @@ public class ActivitySportSearch extends AppCompatActivity {
     }
 
     private void criarCursor(){
-        if(listDesportos.size()==0){
-           // getListaDesportos();
-        }
         matrixCursor= new MatrixCursor(new String[] {"_ID","nome"});
         for(int i=0;i<listDesportos.size();i++){
            matrixCursor.newRow()
@@ -158,7 +160,8 @@ public class ActivitySportSearch extends AppCompatActivity {
 
     private void preencherListaDesporto(){
         criarCursor();
-        cursorAdapterDesportos= new cursorAdapterDesportos( ActivitySportSearch.this,matrixCursor);
+        cursorAdapterDesportos= new cursorAdapterDesportos( ActivitySportSearch.this,matrixCursor, listDesportosEscolhidos);
+
         lv_listaDesporto.setAdapter(cursorAdapterDesportos);
 
     }
@@ -172,7 +175,8 @@ public class ActivitySportSearch extends AppCompatActivity {
                         .add("nome", listDesportos.get(i).getNome());
             }
         }
-        cursorAdapterDesportos= new cursorAdapterDesportos(ActivitySportSearch.this,matrixCursor);
+        cursorAdapterDesportos= new cursorAdapterDesportos(ActivitySportSearch.this,matrixCursor,listDesportosEscolhidos);
         lv_listaDesporto.setAdapter(cursorAdapterDesportos);
     }
+
 }
