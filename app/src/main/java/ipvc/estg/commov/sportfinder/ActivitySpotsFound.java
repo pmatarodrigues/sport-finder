@@ -92,7 +92,7 @@ public class ActivitySpotsFound extends AppCompatActivity {
 
     private void filtrarCidades(String filtro){
         return;
-        //TODO -> Change if statement for the spots arrayList
+        //TODO ->  Change if statement for the spots arrayList
         /*
         matrixCursor= new MatrixCursor(new String[] {"_ID","nome"});
         for(int i=0;i<10;i++){
