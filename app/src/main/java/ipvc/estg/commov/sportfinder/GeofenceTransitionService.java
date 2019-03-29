@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Calendar;
 
 public class GeofenceTransitionService extends IntentService {
 
@@ -31,9 +32,15 @@ public class GeofenceTransitionService extends IntentService {
 
     private Date TIME_ENTERED;
     private Date TIME_LEFT;
+    private Context rContext;
 
     public GeofenceTransitionService() {
         super(TAG);
+    }
+
+    public GeofenceTransitionService(Context rContext) {
+        super(TAG);
+        this.rContext = rContext;
     }
 
     @Override
@@ -64,7 +71,7 @@ public class GeofenceTransitionService extends IntentService {
     }
 
     // Create a detail message with Geofences received
-    private String getGeofenceTrasitionDetails(int geoFenceTransition, List<Geofence> triggeringGeofences) {
+    public String getGeofenceTrasitionDetails(int geoFenceTransition, List<Geofence> triggeringGeofences) {
 
         // get the ID of each geofence triggered
         ArrayList<String> triggeringGeofencesList = new ArrayList<>();
@@ -75,28 +82,36 @@ public class GeofenceTransitionService extends IntentService {
         String status = null;
         if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ) {
             //Log.d(TAG, "calcTimeInsideGeofence: " + TIME_ENTERED);
+            Toast.makeText(this, "Mostreiantes", Toast.LENGTH_SHORT).show();
             TIME_ENTERED = new Date(System.currentTimeMillis());
+            Toast.makeText(this, "Mostrei"+TIME_ENTERED, Toast.LENGTH_SHORT).show();
             Log.d(TAG, "calcTimeInsideGeofence: " + TIME_ENTERED);
             status = "A entrar em ";
         }
         else if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT ) {
             //Log.d(TAG, "calcTimeInsideGeofence: " + TIME_LEFT);
             TIME_LEFT = new Date(System.currentTimeMillis());
+           // TIME_ENTERED =  new Date(System.currentTimeMillis());
             Log.d(TAG, "calcTimeInsideGeofence: " + TIME_LEFT);
-            //calcTimeInsideGeofence(TIME_ENTERED, new Date(System.currentTimeMillis()));
+            try {
+                calcTimeInsideGeofence(TIME_ENTERED, TIME_LEFT);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             status = "A sair de ";
         }
         return status + TextUtils.join( ", ", triggeringGeofencesList);
     }
 
 
-    private void calcTimeInsideGeofence(Date timeEntered, Date timeLeft) throws ParseException {
+    public void calcTimeInsideGeofence(Date timeEntered, Date timeLeft) throws ParseException {
+        Log.d("TAG","calcTimeENTREI");
         //DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
         //timeEntered = //df.parse("2011-02-08 10:00:00 +0300");
         //timeLeft = df.parse("2011-02-08 08:00:00 +0100");
         long timeDiff = Math.abs(timeEntered.getTime() - timeLeft.getTime());
         Log.d(TAG, "calcTimeInsideGeofence: " + timeDiff);
-        Toast.makeText(GeofenceTransitionService.this, "difference: " + timeDiff, Toast.LENGTH_SHORT).show();
+        Toast.makeText(rContext, "difference: " + timeDiff, Toast.LENGTH_SHORT).show();
     }
 
 

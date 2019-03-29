@@ -215,7 +215,6 @@ public class ActivitySportSearch extends AppCompatActivity{
                 if(listDesportosEscolhidos.get(j).equals(listDesportos.get(i).getNome())){
                     listIdEscolhidos.add(listDesportos.get(i).getId());
                 }
-
             }
         }
     }

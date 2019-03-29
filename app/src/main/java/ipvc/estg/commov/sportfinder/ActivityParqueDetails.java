@@ -55,6 +55,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -78,11 +79,14 @@ public class ActivityParqueDetails extends AppCompatActivity
     private Location lastLocation;
 
     private MapFragment mapFragment;
+    private Button btnTeste;
 
     String nomeParque;
     String descricaoParque;
     LatLng latLngParque;
     String raioParque;
+
+    private GeofenceTransitionService geofenceTransitionService=new GeofenceTransitionService(this);
 
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
 
@@ -99,6 +103,24 @@ public class ActivityParqueDetails extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parque_details);
+
+        btnTeste= (Button) findViewById(R.id.btnDirection);
+
+        final Date date = new Date(92, 1, 10);
+
+        // set the time for 10000 milliseconds after
+        // january 1, 1970 00:00:00 gmt.
+        date.setTime(10000);
+        btnTeste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    geofenceTransitionService.calcTimeInsideGeofence(date,Calendar.getInstance().getTime());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         //mapFragment.getMapAsync(this);
@@ -442,4 +464,17 @@ public class ActivityParqueDetails extends AppCompatActivity
         if ( geoFenceLimits != null )
             geoFenceLimits.remove();
     }
+
+    private Date timeEntered,timeLeft;
+
+    /*private void calcTimeInsideGeofence(Date timeEntered, Date timeLeft) throws ParseException {
+        Log.d("TAG","calcTimeENTREI");
+        //DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
+        //timeEntered = //df.parse("2011-02-08 10:00:00 +0300");
+        //timeLeft = df.parse("2011-02-08 08:00:00 +0100");
+        long timeDiff = Math.abs(timeEntered.getTime() - timeLeft.getTime());
+        Log.d(TAG, "calcTimeInsideGeofence: " + timeDiff);
+       // Toast.makeText(GeofenceTransitionService.this, "difference: " + timeDiff, Toast.LENGTH_SHORT).show();
+    }*/
+
 }
