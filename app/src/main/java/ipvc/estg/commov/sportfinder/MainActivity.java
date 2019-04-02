@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.location.LocationManager;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
 
     private TextView tv_warningLogin;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ActivityMainMenu.class);
             MainActivity.this.startActivity(intent);
         }
+        executeBackground();
     }
 
     private void setupListeners() {
@@ -145,4 +149,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private void executeBackground(){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                teste();
+                handler.postDelayed(this, 1000);
+            }
+        };
+
+        //Start
+        handler.postDelayed(runnable, 1000);
+    }
+
+    private void teste(){
+        Log.d("TAG","pedro123 estou a correr em backgroung");
+        //LocationManager manager= new LocationManager();
+    }
+
 }
