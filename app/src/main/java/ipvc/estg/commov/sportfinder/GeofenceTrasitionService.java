@@ -14,14 +14,27 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
+import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import ipvc.estg.commov.sportfinder.Classes.Desporto;
+import ipvc.estg.commov.sportfinder.Classes.Local;
+import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 
 
 public class GeofenceTrasitionService extends IntentService {
@@ -29,9 +42,11 @@ public class GeofenceTrasitionService extends IntentService {
     private static final String TAG = GeofenceTrasitionService.class.getSimpleName();
 
     public static final int GEOFENCE_NOTIFICATION_ID = 0;
+    private List<Local> listaLocais;
 
     int horasEntrada;
     int horasSaida;
+
 
     public GeofenceTrasitionService() {
         super(TAG);
@@ -147,5 +162,7 @@ public class GeofenceTrasitionService extends IntentService {
                 return "Unknown error.";
         }
     }
+
+
 }
 

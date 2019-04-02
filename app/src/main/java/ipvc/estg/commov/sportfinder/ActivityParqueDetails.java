@@ -53,15 +53,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import ipvc.estg.commov.sportfinder.Classes.Local;
+import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 
 public class ActivityParqueDetails extends AppCompatActivity
         implements
@@ -83,6 +89,9 @@ public class ActivityParqueDetails extends AppCompatActivity
 
     private MapFragment mapFragment;
     private Button btnDirecoes;
+
+    ArrayList<LatLng> locs= new ArrayList<LatLng>();
+    private List<Local> listaLocais;
 
     String nomeParque;
     String descricaoParque;
@@ -128,6 +137,7 @@ public class ActivityParqueDetails extends AppCompatActivity
         //mapFragment.getMapAsync(this);
         latLng = new LatLng(41.6920494, -8.8346252);
         btnDirecoes=(Button) findViewById(R.id.btnDirection);
+        getListaLocais();
 
         LocalBroadcastManager lbc = LocalBroadcastManager.getInstance(this);
         GoogleReceiver receiver = new GoogleReceiver(this);
@@ -359,6 +369,8 @@ public class ActivityParqueDetails extends AppCompatActivity
 
 
     private Marker geoFenceMarker;
+    private ArrayList<Marker> gfmarkr = new ArrayList<Marker>();
+
     private void markerForGeofence(LatLng latLng) {
         Log.i(TAG, "markerForGeofence("+latLng+")");
         String title = latLng.latitude + ", " + latLng.longitude;
@@ -373,6 +385,7 @@ public class ActivityParqueDetails extends AppCompatActivity
                 geoFenceMarker.remove();
 
             geoFenceMarker = mMap.addMarker(markerOptions);
+            gfmarkr.add(geoFenceMarker);
 
         }
     }
@@ -381,9 +394,11 @@ public class ActivityParqueDetails extends AppCompatActivity
     private void startGeofence() {
         Log.i(TAG, "startGeofence()este");
         if( geoFenceMarker != null ) {
-            Geofence geofence = createGeofence( geoFenceMarker.getPosition(), GEOFENCE_RADIUS );
-            GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
-            addGeofence( geofenceRequest );
+            for(int i=0;i<gfmarkr.size();i++) {
+                Geofence geofence = createGeofence(gfmarkr.get(i).getPosition(), GEOFENCE_RADIUS);
+                GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
+                addGeofence(geofenceRequest);
+            }
         } else {
             Log.e(TAG, "Geofence marker is null");
         }
@@ -517,5 +532,55 @@ public class ActivityParqueDetails extends AppCompatActivity
             geoFenceMarker.remove();
         if ( geoFenceLimits != null )
             geoFenceLimits.remove();
+    }
+    private void getListaLocais(){
+        String url="http://sportfinderapi.000webhostapp.com/slim/api/getLocaisSmall";
+        //Local local= new Local();
+        listaLocais= new ArrayList<>();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Local local;
+                            JSONArray arr = response.getJSONArray("DATA");
+                            Log.d(TAG,"Locais123arr"+listaLocais.size());
+                            for(int i=0;i<arr.length();i++){
+                                local= new Local();
+                                JSONObject obj=arr.optJSONObject(i);
+                                local.setId(obj.getString("id"));
+                                local.setNome(obj.getString("nome"));
+
+                                String latLngAux=obj.getString("coordenadas");
+                                String aux[]= latLngAux.split(",");
+
+                                String latitude = aux[0];
+                                String longitude = aux[1];
+                                Log.d(TAG,"Locais123lat: "+latitude);
+                                local.setLatLng(new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude)));
+
+                                local.setRaio(Integer.valueOf(obj.getString("raio")));
+                                listaLocais.add(local);
+                            };
+                            preencherListaLocais();
+                        }catch (JSONException ex){
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("TAG","pedro1234"+ error.getMessage());
+                    }
+                });
+        MySingleton.getIntance(this).addToRequestQueue(jsonObjectRequest);
+    }
+
+    private void preencherListaLocais(){
+        for(int i=0;i<listaLocais.size();i++){
+            Log.d(TAG,"Locais123id: "+listaLocais.get(i).getId());
+        }
+
     }
 }
