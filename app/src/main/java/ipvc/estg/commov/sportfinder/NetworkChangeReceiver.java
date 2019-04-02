@@ -1,5 +1,9 @@
 package ipvc.estg.commov.sportfinder;
 
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,17 +15,26 @@ import static ipvc.estg.commov.sportfinder.ClassNoInternet.dialog;
 
 
 public class NetworkChangeReceiver extends BroadcastReceiver {
+
+    ViewDialog alert;
+
     @Override
     public void onReceive(Context context, Intent intent)
     {
         try
         {
             if (isOnline(context)) {
-                dialog(true);
-                Log.d("keshav", "Online Connect Intenet ");
+                Activity activity = (Activity) context;
+
+                //ViewDialog alert = new ViewDialog(context);
+                alert.dismiss();
+                //dialog(true);
             } else {
-                dialog(false);
-                Log.d("keshav", "Conectivity Failure !!! ");
+                Activity activity = (Activity) context;
+
+                alert = new ViewDialog(context);
+                alert.showDialog(activity, "Erro de ligação à internet!");
+                //dialog(false);
             }
         } catch (NullPointerException e) {
             e.printStackTrace();

@@ -232,34 +232,6 @@
 
 </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/tv_check_connection"
-            android:layout_width="300dp"
-            android:layout_height="500dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/background_card"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:src="@drawable/ic_icon_ranking"
-                android:layout_gravity="center"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Não foi possível obter conexão à internet!"
-                android:textSize="25dp"
-                android:textColor="@android:color/holo_red_light"
-                android:textAlignment="center"
-                />
-
-        </LinearLayout>
-
     </RelativeLayout>
 
 </ScrollView>

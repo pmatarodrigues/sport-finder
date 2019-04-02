@@ -25,9 +25,7 @@ public class ActivityMainMenu extends AppCompatActivity {
     Button buttonProfile;
     Button buttonSearch;
 
-    static LinearLayout tv_check_connection;
     private BroadcastReceiver mNetworkReceiver;
-    private RelativeLayout rl_content;
 
     ClassNoInternet classNoInternet;
 
@@ -36,11 +34,9 @@ public class ActivityMainMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        tv_check_connection=(LinearLayout) findViewById(R.id.tv_check_connection);
-        rl_content = (RelativeLayout) findViewById(R.id.content);
         mNetworkReceiver = new NetworkChangeReceiver();
 
-        classNoInternet = new ClassNoInternet(tv_check_connection, mNetworkReceiver, rl_content);
+        classNoInternet = new ClassNoInternet(mNetworkReceiver);
         registerNetworkBroadcastForNougat();
 
         buttonAdd = (Button) findViewById(R.id.button_add_main_menu);

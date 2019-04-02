@@ -20,9 +20,7 @@ public class ClassNoInternet extends AppCompatActivity{
     private static RelativeLayout rl_content;
     private BroadcastReceiver mNetworkReceiver;
 
-    public ClassNoInternet(LinearLayout tv_check_connection, BroadcastReceiver mNetworkReceiver, RelativeLayout rl_content) {
-        this.tv_check_connection = tv_check_connection;
-        this.rl_content = rl_content;
+    public ClassNoInternet(BroadcastReceiver mNetworkReceiver) {
         this.mNetworkReceiver = mNetworkReceiver;
     }
 
