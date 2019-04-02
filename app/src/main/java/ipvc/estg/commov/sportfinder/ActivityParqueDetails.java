@@ -11,6 +11,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -116,6 +118,9 @@ public class ActivityParqueDetails extends AppCompatActivity
         this.horasSaida = horasSaida;
     }
 
+    // NEEDED TO CHECK FOR NETWORK
+    private BroadcastReceiver mNetworkReceiver;
+    ClassNoInternet classNoInternet;
 
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
 
@@ -138,6 +143,12 @@ public class ActivityParqueDetails extends AppCompatActivity
         latLng = new LatLng(41.6920494, -8.8346252);
         btnDirecoes=(Button) findViewById(R.id.btnDirection);
         getListaLocais();
+
+        // NEEDED TO CHECK FOR NETWORK
+        mNetworkReceiver = new NetworkChangeReceiver();
+        classNoInternet = new ClassNoInternet(mNetworkReceiver);
+        registerNetworkBroadcastForNougat();
+
 
         LocalBroadcastManager lbc = LocalBroadcastManager.getInstance(this);
         GoogleReceiver receiver = new GoogleReceiver(this);
@@ -583,4 +594,30 @@ public class ActivityParqueDetails extends AppCompatActivity
         }
 
     }
+
+
+    // NEEDED TO CHECK FOR NETWORK
+    public void registerNetworkBroadcastForNougat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+    }
+
+    public void unregisterNetworkChanges() {
+        try {
+            unregisterReceiver(mNetworkReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        classNoInternet.unregisterNetworkChanges();
+    }
+
 }
