@@ -40,10 +40,42 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //
+
+
+        editTextEmail = (EditText) findViewById(R.id.login_email);
+        editTextPassword = (EditText) findViewById(R.id.login_password);
+        tv_warningLogin=(TextView)findViewById(R.id.txtLoginWarning);
+
+        buttonLogin = (Button)findViewById(R.id.button_login);
+
+        final LinearLayout emailLayout = (LinearLayout) findViewById(R.id.emailLinearLayout);
+        final LinearLayout passwordLayout = (LinearLayout) findViewById(R.id.passwordLinearLayout);
+        emailLayout.setBackgroundColor(Color.TRANSPARENT);
+        passwordLayout.setBackgroundColor(Color.TRANSPARENT);
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(editTextEmail.getText().toString().trim().isEmpty()){
+                    tv_warningLogin.setText(R.string.warningEmailEmpty);
+                    emailLayout.setBackgroundColor(Color.parseColor("#ff0000"));
+                    if(editTextEmail.requestFocus()){
+                        showKeyboard(editTextEmail);
+                    }
+                } else if(editTextPassword.getText().toString().trim().isEmpty()){
+                    tv_warningLogin.setText(R.string.warningPasswordEmpty);
+                    passwordLayout.setBackgroundColor(Color.parseColor("#ff0000"));
+                    if(editTextPassword.requestFocus()){
+                        showKeyboard(editTextPassword);
+                    }
+                } else{
+                    authMailPass(editTextEmail.getText().toString().trim(), editTextPassword.getText().toString().trim());
+                }
+            }
+        });
+
+
         setupListeners();
-        this.editTextEmail = (EditText) findViewById(R.id.login_email);
-        this.editTextPassword = (EditText) findViewById(R.id.login_password);
-        this.tv_warningLogin=(TextView)findViewById(R.id.txtLoginWarning);
 
         progressDialog= new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
@@ -56,15 +88,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupListeners() {
-        //Button login listener
-        buttonLogin = (Button) findViewById(R.id.button_login);
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMainMenu();
 
-            }
-        });
         //Set clickListener for the textView criar_conta
         TextView txtViewCriarConta = (TextView) findViewById(R.id.criar_conta);
         txtViewCriarConta.setOnClickListener(new View.OnClickListener() {
@@ -82,32 +106,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    protected void openMainMenu(){
-        //Run login checkups
-        LinearLayout emailLayout = (LinearLayout) findViewById(R.id.emailLinearLayout);
-        LinearLayout passwordLayout = (LinearLayout) findViewById(R.id.passwordLinearLayout);
-        emailLayout.setBackgroundColor(Color.TRANSPARENT);
-        passwordLayout.setBackgroundColor(Color.TRANSPARENT);
-        if(this.editTextEmail.getText().toString().trim().isEmpty()){
-            tv_warningLogin.setText(R.string.warningEmailEmpty);
-            emailLayout.setBackgroundColor(Color.parseColor("#ff0000"));
-            if(this.editTextEmail.requestFocus()){
-                this.showKeyboard(this.editTextEmail);
-            }
-        }else if (this.editTextPassword.getText().toString().trim().isEmpty()){
-            tv_warningLogin.setText(R.string.warningPasswordEmpty);
-            passwordLayout.setBackgroundColor(Color.parseColor("#ff0000"));
-            if(this.editTextPassword.requestFocus()){
-                this.showKeyboard(this.editTextPassword);
-            }
-        }else{
-            authMailPass(this.editTextEmail.getText().toString().trim(),this.editTextPassword.getText().toString().trim());
-        }
-        //Remover linhas seguintes para produto final
-        //TODO
-        Intent intent = new Intent(MainActivity.this, ActivityMainMenu.class);
-        MainActivity.this.startActivity(intent);
-    }
+
     //
     private void showKeyboard(View view){
         InputMethodManager imm = (InputMethodManager)

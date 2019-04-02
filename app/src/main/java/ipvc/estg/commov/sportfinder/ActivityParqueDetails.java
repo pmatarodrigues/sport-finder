@@ -113,14 +113,6 @@ public class ActivityParqueDetails extends AppCompatActivity
         // create GoogleApiClient
         createGoogleApi();
 
-        btnDirecoes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG,"clicquei btn");
-                startGeofence();
-            }
-        });
-
     }
 
     // Create GoogleApiClient instance
