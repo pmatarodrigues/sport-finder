@@ -66,7 +66,11 @@ public class ActivitySportSearch extends AppCompatActivity{
             public void onClick(View v) {
                 if(verificarEscolheuDesporto()){
                     if (whereToGo.equals("search")){
+                        criarListaIdEscolhidos();
                         Intent intent = new Intent(ActivitySportSearch.this, ActivitySpotsFound.class);
+                        Bundle b = new Bundle();
+                        b.putStringArrayList("selectedSports",listIdEscolhidos);
+                        intent.putExtras(b);
                         ActivitySportSearch.this.startActivity(intent);
                     }else if (whereToGo.equals("add")){
                         criarListaIdEscolhidos();
@@ -79,7 +83,7 @@ public class ActivitySportSearch extends AppCompatActivity{
                         ActivitySportSearch.this.startActivity(intent);
 
                     }else{
-                        Toast.makeText(ActivitySportSearch.this, "Go Back and TCry Again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ActivitySportSearch.this, "Go Back and Try Again", Toast.LENGTH_SHORT).show();
                     }
                 }else {
                     Toast.makeText(ActivitySportSearch.this, R.string.chooseSport, Toast.LENGTH_LONG).show();

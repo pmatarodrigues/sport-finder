@@ -20,6 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan">
+        <activity android:name=".ActivityShowSpotDetailed"></activity>
+
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -35,14 +37,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".ActivityMainMenu" />
-        <activity android:name=".ActivitySportSearch" android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".ActivitySportSearch"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ActivityAddPlaceMap" />
         <activity android:name=".ActivityParqueDetails" />
-        <activity android:name=".ActivityUserAccount"></activity>
+        <activity android:name=".ActivityUserAccount" />
 
-        <service android:name=".GeofenceTransitionService"/>
-        <activity android:name=".ActivityCreateAccount" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ActivitySpotsFound" android:windowSoftInputMode="adjustPan"/>
+        <service android:name=".GeofenceTransitionService" />
+
+        <activity
+            android:name=".ActivityCreateAccount"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ActivitySpotsFound"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>
