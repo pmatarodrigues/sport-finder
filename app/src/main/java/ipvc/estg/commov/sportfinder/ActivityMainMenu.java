@@ -129,7 +129,7 @@ public class ActivityMainMenu extends AppCompatActivity implements GoogleApiClie
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityMainMenu.this, couto.class);
+                Intent intent = new Intent(ActivityMainMenu.this, ActivityParqueDetails.class);
 
                 //Intent intent = new Intent(ActivityMainMenu.this, ActivityGraphs.class);
 
