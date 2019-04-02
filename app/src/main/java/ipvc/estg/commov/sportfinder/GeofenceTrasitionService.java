@@ -1,5 +1,6 @@
 package ipvc.estg.commov.sportfinder;
 
+import android.app.Activity;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -17,6 +19,8 @@ import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -26,13 +30,15 @@ public class GeofenceTrasitionService extends IntentService {
 
     public static final int GEOFENCE_NOTIFICATION_ID = 0;
 
+    int horasEntrada;
+    int horasSaida;
+
     public GeofenceTrasitionService() {
         super(TAG);
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.d(TAG,"chegou aqui12356");
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
         // Handling errors
         if ( geofencingEvent.hasError() ) {
@@ -41,11 +47,26 @@ public class GeofenceTrasitionService extends IntentService {
             return;
         }
 
+
+        Date hours = Calendar.getInstance().getTime();
+
+        Intent lbcIntent = new Intent("googlegeofence"); //Send to any reciever listening for this
+
         int geoFenceTransition = geofencingEvent.getGeofenceTransition();
         // Check if the transition type is of interest
         if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
                 geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT ) {
             // Get the geofence that were triggered
+            if(geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER){
+                //lbcIntent.putExtra("horasSaida", false);  //Put whatever it is you want the activity to handle
+                lbcIntent.putExtra("horasEntrada", hours);  //Put whatever it is you want the activity to handle
+                LocalBroadcastManager.getInstance(this).sendBroadcast(lbcIntent);  //Send the intent
+            } if(geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT){
+                //lbcIntent.putExtra("horasEntrada", false);  //Put whatever it is you want the activity to handle
+                lbcIntent.putExtra("horasSaida", hours);  //Put whatever it is you want the activity to handle
+                LocalBroadcastManager.getInstance(this).sendBroadcast(lbcIntent);  //Send the intent
+            }
+
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
             String geofenceTransitionDetails = getGeofenceTrasitionDetails(geoFenceTransition, triggeringGeofences );
@@ -53,6 +74,7 @@ public class GeofenceTrasitionService extends IntentService {
             // Send notification details as a String
             sendNotification( geofenceTransitionDetails );
         }
+
     }
 
 
@@ -63,11 +85,15 @@ public class GeofenceTrasitionService extends IntentService {
             triggeringGeofencesList.add( geofence.getRequestId() );
         }
 
+        Intent lbcIntent = new Intent("googlegeofence"); //Send to any reciever listening for this
+
         String status = null;
-        if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER )
+        if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ){
             status = "Entering ";
-        else if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT )
+        }
+        else if ( geoFenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT ){
             status = "Exiting ";
+        }
         return status + TextUtils.join( ", ", triggeringGeofencesList);
     }
 

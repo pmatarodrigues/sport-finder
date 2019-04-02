@@ -1,9 +1,12 @@
 package ipvc.estg.commov.sportfinder;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -85,6 +89,25 @@ public class ActivityParqueDetails extends AppCompatActivity
     LatLng latLngParque;
     String raioParque;
 
+    public Date horasEntrada;
+    public Date horasSaida;
+
+    public Long tempoDentroGeofence;
+
+    public Date getHorasEntrada() {
+        return horasEntrada;
+    }
+    public void setHorasEntrada(Date horasEntrada) {
+        this.horasEntrada = horasEntrada;
+    }
+    public Date getHorasSaida() {
+        return horasSaida;
+    }
+    public void setHorasSaida(Date horasSaida) {
+        this.horasSaida = horasSaida;
+    }
+
+
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
 
     // Create a Intent send by the notification
@@ -106,6 +129,10 @@ public class ActivityParqueDetails extends AppCompatActivity
         latLng = new LatLng(41.6920494, -8.8346252);
         btnDirecoes=(Button) findViewById(R.id.btnDirection);
 
+        LocalBroadcastManager lbc = LocalBroadcastManager.getInstance(this);
+        GoogleReceiver receiver = new GoogleReceiver(this);
+        lbc.registerReceiver(receiver, new IntentFilter("googlegeofence"));
+        //Anything with this intent will be sent to this receiver
 
         // initialize GoogleMaps
         initGMaps();
@@ -113,14 +140,39 @@ public class ActivityParqueDetails extends AppCompatActivity
         // create GoogleApiClient
         createGoogleApi();
 
-        btnDirecoes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG,"clicquei btn");
-                startGeofence();
-            }
-        });
+    }
 
+    static class GoogleReceiver extends BroadcastReceiver {
+
+        ActivityParqueDetails activityParqueDetails;
+        public GoogleReceiver(Activity activity){
+            activityParqueDetails = (ActivityParqueDetails) activity;
+        }
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Handle the intent here
+            Bundle extras = intent.getExtras();
+            Date horasEntradaAUX = (Date) extras.get("horasEntrada");
+            Date horasSaidaAUX = (Date) extras.get("horasSaida");
+
+            if(horasEntradaAUX != null) {
+                activityParqueDetails.setHorasEntrada(horasEntradaAUX);
+            }
+            if(horasSaidaAUX != null){
+                activityParqueDetails.setHorasSaida(horasSaidaAUX);
+            }
+
+            if(activityParqueDetails.getHorasEntrada() != null && activityParqueDetails.getHorasSaida() != null){
+                Long diff = activityParqueDetails.getHorasSaida().getTime() - activityParqueDetails.getHorasEntrada().getTime();
+                long seconds = diff / 1000;
+                long minutes = seconds / 60;
+                activityParqueDetails.tempoDentroGeofence = minutes;
+                Log.i("TAG", "HORAS DIFF " + diff + ":" + seconds + ":" + minutes);
+                activityParqueDetails.setHorasEntrada(null);
+                activityParqueDetails.setHorasSaida(null);
+
+            }
+        }
     }
 
     // Create GoogleApiClient instance
