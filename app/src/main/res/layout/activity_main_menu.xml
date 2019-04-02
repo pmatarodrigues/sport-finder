@@ -7,8 +7,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_rectangle"
     >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 <RelativeLayout
+    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
@@ -23,6 +27,7 @@
         android:textAppearance="@style/username_main_menu"
         android:gravity="top"
         />
+
 
     <View
         android:id="@+id/rectangle"
@@ -225,7 +230,8 @@
 
     </LinearLayout>
 
-
 </RelativeLayout>
+
+    </RelativeLayout>
 
 </ScrollView>
