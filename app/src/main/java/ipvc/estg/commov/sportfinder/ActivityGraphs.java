@@ -3,6 +3,7 @@ package ipvc.estg.commov.sportfinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -37,28 +38,32 @@ public class ActivityGraphs extends AppCompatActivity {
     private void getDadosGraphs(){
         String url="http://sportfinderapi.000webhostapp.com/slim/api/getPontoSemana/1";
 
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            int pontos;
+                            int semana;
                             Desporto desporto;
+                            GraphView graph = (GraphView) findViewById(R.id.graph);
                             JSONArray arr = response.getJSONArray("DATA");
+
+                            DataPoint[] dataPoints = new DataPoint[arr.length()];
                             for(int i=0;i<arr.length();i++){
                                 JSONObject obj=arr.optJSONObject(i);
 
-                                obj.getString("sum(pontos)");
+                                pontos = Integer.parseInt(obj.getString("pontos"));
+                                semana = Integer.parseInt(obj.getString("semana_registo"));
+                                dataPoints[i] = new DataPoint(semana, pontos); // segundo param possivel double
+
 
                             };
 
-                            GraphView graph = (GraphView) findViewById(R.id.graph);
-                            LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                                    new DataPoint(0, 1),
-                                    new DataPoint(1, 5),
-                                    new DataPoint(2, 3),
-                                    new DataPoint(3, 2),
-                                    new DataPoint(4, 6)
-                            });
+
+                            LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
+
                             graph.addSeries(series);
 
                         }catch (JSONException ex){
