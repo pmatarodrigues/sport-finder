@@ -29,6 +29,19 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBsAy45C0RwdGiWNu6eXlHe8jx-93oeyJk" />
 
+        <receiver android:name=".GPSCheck">
+            <intent-filter>
+                <action android:name="android.location.PROVIDERS_CHANGED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".NetworkChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,7 +57,7 @@
         <activity android:name=".ActivityParqueDetails" />
         <activity android:name=".ActivityUserAccount" />
 
-        <service android:name=".GeofenceTransitionService" />
+        <service android:name=".GeofenceTrasitionService" />
 
         <activity
             android:name=".ActivityCreateAccount"
@@ -52,6 +65,10 @@
         <activity
             android:name=".ActivitySpotsFound"
             android:windowSoftInputMode="adjustPan" />
+
+
+        <activity android:name=".ActivityGraphs"></activity>
+
     </application>
 
 </manifest>

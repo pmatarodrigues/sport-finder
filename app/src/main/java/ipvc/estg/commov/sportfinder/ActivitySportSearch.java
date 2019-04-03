@@ -1,7 +1,11 @@
 package ipvc.estg.commov.sportfinder;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.MatrixCursor;
+import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -42,6 +46,10 @@ public class ActivitySportSearch extends AppCompatActivity{
     private List<String> listDesportosEscolhidos;
     private ArrayList<String> listIdEscolhidos;
 
+    // NEEDED TO CHECK FOR NETWORK
+    private BroadcastReceiver mNetworkReceiver;
+    ClassNoInternet classNoInternet;
+
     //
     private String whereToGo = "";
 
@@ -50,6 +58,10 @@ public class ActivitySportSearch extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sport_search);
 
+        // NEEDED TO CHECK FOR NETWORK
+        mNetworkReceiver = new NetworkChangeReceiver();
+        classNoInternet = new ClassNoInternet(mNetworkReceiver);
+        registerNetworkBroadcastForNougat();
         //
         whereToGo = getIntent().getStringExtra("GoTo");
         btnContinuar = (Button)findViewById(R.id.button_continuar);
@@ -229,6 +241,31 @@ public class ActivitySportSearch extends AppCompatActivity{
         else {
             return false;
         }
+    }
+
+
+    // NEEDED TO CHECK FOR NETWORK
+    public void registerNetworkBroadcastForNougat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+    }
+
+    public void unregisterNetworkChanges() {
+        try {
+            unregisterReceiver(mNetworkReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //classNoInternet.unregisterNetworkChanges();
     }
 
 }

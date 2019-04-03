@@ -1,17 +1,23 @@
 package ipvc.estg.commov.sportfinder;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,16 +55,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import ipvc.estg.commov.sportfinder.Classes.Local;
+import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 
 public class ActivityParqueDetails extends AppCompatActivity
         implements
@@ -79,14 +90,37 @@ public class ActivityParqueDetails extends AppCompatActivity
     private Location lastLocation;
 
     private MapFragment mapFragment;
-    private Button btnTeste;
+    private Button btnDirecoes;
+
+    ArrayList<LatLng> locs= new ArrayList<LatLng>();
+    private List<Local> listaLocais;
 
     String nomeParque;
     String descricaoParque;
     LatLng latLngParque;
     String raioParque;
 
-    private GeofenceTransitionService geofenceTransitionService=new GeofenceTransitionService(this);
+    public Date horasEntrada;
+    public Date horasSaida;
+
+    public Long tempoDentroGeofence;
+
+    public Date getHorasEntrada() {
+        return horasEntrada;
+    }
+    public void setHorasEntrada(Date horasEntrada) {
+        this.horasEntrada = horasEntrada;
+    }
+    public Date getHorasSaida() {
+        return horasSaida;
+    }
+    public void setHorasSaida(Date horasSaida) {
+        this.horasSaida = horasSaida;
+    }
+
+    // NEEDED TO CHECK FOR NETWORK
+    private BroadcastReceiver mNetworkReceiver;
+    ClassNoInternet classNoInternet;
 
     private static final String NOTIFICATION_MSG = "NOTIFICATION MSG";
 
@@ -104,34 +138,62 @@ public class ActivityParqueDetails extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parque_details);
 
-        btnTeste= (Button) findViewById(R.id.btnDirection);
-
-        final Date date = new Date(92, 1, 10);
-
-        // set the time for 10000 milliseconds after
-        // january 1, 1970 00:00:00 gmt.
-        date.setTime(10000);
-        btnTeste.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    geofenceTransitionService.calcTimeInsideGeofence(date,Calendar.getInstance().getTime());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
         //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         //mapFragment.getMapAsync(this);
         latLng = new LatLng(41.6920494, -8.8346252);
+        btnDirecoes=(Button) findViewById(R.id.btnDirection);
+        getListaLocais();
 
+        // NEEDED TO CHECK FOR NETWORK
+        mNetworkReceiver = new NetworkChangeReceiver();
+        classNoInternet = new ClassNoInternet(mNetworkReceiver);
+        registerNetworkBroadcastForNougat();
+
+
+        LocalBroadcastManager lbc = LocalBroadcastManager.getInstance(this);
+        GoogleReceiver receiver = new GoogleReceiver(this);
+        lbc.registerReceiver(receiver, new IntentFilter("googlegeofence"));
+        //Anything with this intent will be sent to this receiver
 
         // initialize GoogleMaps
         initGMaps();
 
         // create GoogleApiClient
         createGoogleApi();
+
+    }
+
+    static class GoogleReceiver extends BroadcastReceiver {
+
+        ActivityParqueDetails activityParqueDetails;
+        public GoogleReceiver(Activity activity){
+            activityParqueDetails = (ActivityParqueDetails) activity;
+        }
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //Handle the intent here
+            Bundle extras = intent.getExtras();
+            Date horasEntradaAUX = (Date) extras.get("horasEntrada");
+            Date horasSaidaAUX = (Date) extras.get("horasSaida");
+
+            if(horasEntradaAUX != null) {
+                activityParqueDetails.setHorasEntrada(horasEntradaAUX);
+            }
+            if(horasSaidaAUX != null){
+                activityParqueDetails.setHorasSaida(horasSaidaAUX);
+            }
+
+            if(activityParqueDetails.getHorasEntrada() != null && activityParqueDetails.getHorasSaida() != null){
+                Long diff = activityParqueDetails.getHorasSaida().getTime() - activityParqueDetails.getHorasEntrada().getTime();
+                long seconds = diff / 1000;
+                long minutes = seconds / 60;
+                activityParqueDetails.tempoDentroGeofence = minutes;
+                Log.i("TAG", "HORAS DIFF " + diff + ":" + seconds + ":" + minutes);
+                activityParqueDetails.setHorasEntrada(null);
+                activityParqueDetails.setHorasSaida(null);
+
+            }
+        }
     }
 
     // Create GoogleApiClient instance
@@ -318,7 +380,10 @@ public class ActivityParqueDetails extends AppCompatActivity
 
 
     private Marker geoFenceMarker;
+    private ArrayList<Marker> gfmarkr = new ArrayList<Marker>();
+
     private void markerForGeofence(LatLng latLng) {
+        Log.i(TAG, "markerForGeofence("+latLng+")");
         String title = latLng.latitude + ", " + latLng.longitude;
         // Define marker options
         MarkerOptions markerOptions = new MarkerOptions()
@@ -331,26 +396,32 @@ public class ActivityParqueDetails extends AppCompatActivity
                 geoFenceMarker.remove();
 
             geoFenceMarker = mMap.addMarker(markerOptions);
+            gfmarkr.add(geoFenceMarker);
+
         }
     }
 
-    private static final long GEO_DURATION = 60 * 60 * 1000;
-    private static final String GEOFENCE_REQ_ID = "Local";
-    private static final float GEOFENCE_RADIUS = 500.0f; // in meters
-
     // Start Geofence creation process
     private void startGeofence() {
+        Log.i(TAG, "startGeofence()este");
         if( geoFenceMarker != null ) {
-            Geofence geofence = createGeofence( latLng, GEOFENCE_RADIUS );
-            GeofencingRequest geofenceRequest = createGeofenceRequest( geofence );
-            addGeofence( geofenceRequest );
+            for(int i=0;i<gfmarkr.size();i++) {
+                Geofence geofence = createGeofence(gfmarkr.get(i).getPosition(), GEOFENCE_RADIUS);
+                GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
+                addGeofence(geofenceRequest);
+            }
         } else {
             Log.e(TAG, "Geofence marker is null");
         }
     }
 
+    private static final long GEO_DURATION = 60 * 60 * 1000;
+    private static final String GEOFENCE_REQ_ID = "My Geofence";
+    private static final float GEOFENCE_RADIUS = 500.0f; // in meters
+
     // Create a Geofence
     private Geofence createGeofence( LatLng latLng, float radius ) {
+        Log.d(TAG, "createGeofence");
         return new Geofence.Builder()
                 .setRequestId(GEOFENCE_REQ_ID)
                 .setCircularRegion( latLng.latitude, latLng.longitude, radius)
@@ -362,8 +433,7 @@ public class ActivityParqueDetails extends AppCompatActivity
 
     // Create a Geofence Request
     private GeofencingRequest createGeofenceRequest( Geofence geofence ) {
-        Log.i(TAG, "------------> notification createGeofenceRequest" );
-
+        Log.d(TAG, "createGeofenceRequest");
         return new GeofencingRequest.Builder()
                 .setInitialTrigger( GeofencingRequest.INITIAL_TRIGGER_ENTER )
                 .addGeofence( geofence )
@@ -372,16 +442,21 @@ public class ActivityParqueDetails extends AppCompatActivity
 
     private PendingIntent geoFencePendingIntent;
     private final int GEOFENCE_REQ_CODE = 0;
+
     private PendingIntent createGeofencePendingIntent() {
+        Log.d(TAG, "createGeofencePendingIntent");
         if ( geoFencePendingIntent != null )
             return geoFencePendingIntent;
+        Log.d(TAG,"chegou aqui123");
+        Intent intent = new Intent( this, GeofenceTrasitionService.class);
 
-        Intent intent = new Intent( this, GeofenceTransitionService.class);
-        return PendingIntent.getService(this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT );
+        return PendingIntent.getService(
+                this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT );
     }
 
     // Add the created GeofenceRequest to the device's monitoring list
     private void addGeofence(GeofencingRequest request) {
+        Log.d(TAG, "addGeofence");
         if (checkPermission())
             LocationServices.GeofencingApi.addGeofences(
                     googleApiClient,
@@ -392,6 +467,7 @@ public class ActivityParqueDetails extends AppCompatActivity
 
     @Override
     public void onResult(@NonNull Status status) {
+        Log.i(TAG, "onResult: " + status);
         if ( status.isSuccess() ) {
             saveGeofence();
             drawGeofence();
@@ -403,15 +479,15 @@ public class ActivityParqueDetails extends AppCompatActivity
     // Draw Geofence circle on GoogleMap
     private Circle geoFenceLimits;
     private void drawGeofence() {
+        Log.d(TAG, "drawGeofence()");
 
-        if ( geoFenceLimits != null ) {
+        if ( geoFenceLimits != null )
             geoFenceLimits.remove();
-        }
 
         CircleOptions circleOptions = new CircleOptions()
                 .center( geoFenceMarker.getPosition())
-                .strokeColor(Color.argb(50, 255,70,70))
-                .fillColor( Color.argb(100, 255,150,150) )
+                .strokeColor(Color.argb(50, 200,70,70))
+                .fillColor( Color.argb(100, 150,0,150) )
                 .radius( GEOFENCE_RADIUS );
         geoFenceLimits = mMap.addCircle( circleOptions );
     }
@@ -421,6 +497,7 @@ public class ActivityParqueDetails extends AppCompatActivity
 
     // Saving GeoFence marker with prefs mng
     private void saveGeofence() {
+        Log.d(TAG, "saveGeofence()");
         SharedPreferences sharedPref = getPreferences( Context.MODE_PRIVATE );
         SharedPreferences.Editor editor = sharedPref.edit();
 
@@ -431,12 +508,13 @@ public class ActivityParqueDetails extends AppCompatActivity
 
     // Recovering last Geofence marker
     private void recoverGeofenceMarker() {
+        Log.d(TAG, "recoverGeofenceMarker");
         SharedPreferences sharedPref = getPreferences( Context.MODE_PRIVATE );
 
         if ( sharedPref.contains( KEY_GEOFENCE_LAT ) && sharedPref.contains( KEY_GEOFENCE_LON )) {
             double lat = Double.longBitsToDouble( sharedPref.getLong( KEY_GEOFENCE_LAT, -1 ));
             double lon = Double.longBitsToDouble( sharedPref.getLong( KEY_GEOFENCE_LON, -1 ));
-            //LatLng latLng = new LatLng( lat, lon );
+            LatLng latLng = new LatLng( lat, lon );
             markerForGeofence(latLng);
             drawGeofence();
         }
@@ -444,6 +522,7 @@ public class ActivityParqueDetails extends AppCompatActivity
 
     // Clear Geofence
     private void clearGeofence() {
+        Log.d(TAG, "clearGeofence()");
         LocationServices.GeofencingApi.removeGeofences(
                 googleApiClient,
                 createGeofencePendingIntent()
@@ -459,22 +538,86 @@ public class ActivityParqueDetails extends AppCompatActivity
     }
 
     private void removeGeofenceDraw() {
+        Log.d(TAG, "removeGeofenceDraw()");
         if ( geoFenceMarker != null)
             geoFenceMarker.remove();
         if ( geoFenceLimits != null )
             geoFenceLimits.remove();
     }
+    private void getListaLocais(){
+        String url="http://sportfinderapi.000webhostapp.com/slim/api/getLocaisSmall";
+        //Local local= new Local();
+        listaLocais= new ArrayList<>();
 
-    private Date timeEntered,timeLeft;
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            Local local;
+                            JSONArray arr = response.getJSONArray("DATA");
+                            Log.d(TAG,"Locais123arr"+listaLocais.size());
+                            for(int i=0;i<arr.length();i++){
+                                local= new Local();
+                                JSONObject obj=arr.optJSONObject(i);
+                                local.setId(obj.getString("id"));
+                                local.setNome(obj.getString("nome"));
 
-    /*private void calcTimeInsideGeofence(Date timeEntered, Date timeLeft) throws ParseException {
-        Log.d("TAG","calcTimeENTREI");
-        //DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z");
-        //timeEntered = //df.parse("2011-02-08 10:00:00 +0300");
-        //timeLeft = df.parse("2011-02-08 08:00:00 +0100");
-        long timeDiff = Math.abs(timeEntered.getTime() - timeLeft.getTime());
-        Log.d(TAG, "calcTimeInsideGeofence: " + timeDiff);
-       // Toast.makeText(GeofenceTransitionService.this, "difference: " + timeDiff, Toast.LENGTH_SHORT).show();
-    }*/
+                                String latLngAux=obj.getString("coordenadas");
+                                String aux[]= latLngAux.split(",");
+
+                                String latitude = aux[0];
+                                String longitude = aux[1];
+                                Log.d(TAG,"Locais123lat: "+latitude);
+                                local.setLatLng(new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude)));
+
+                                local.setRaio(Integer.valueOf(obj.getString("raio")));
+                                listaLocais.add(local);
+                            };
+                            preencherListaLocais();
+                        }catch (JSONException ex){
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("TAG","pedro1234"+ error.getMessage());
+                    }
+                });
+        MySingleton.getIntance(this).addToRequestQueue(jsonObjectRequest);
+    }
+
+    private void preencherListaLocais(){
+        for(int i=0;i<listaLocais.size();i++){
+            Log.d(TAG,"Locais123id: "+listaLocais.get(i).getId());
+        }
+
+    }
+
+
+    // NEEDED TO CHECK FOR NETWORK
+    public void registerNetworkBroadcastForNougat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+    }
+
+    public void unregisterNetworkChanges() {
+        try {
+            unregisterReceiver(mNetworkReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //classNoInternet.unregisterNetworkChanges();
+    }
 
 }
