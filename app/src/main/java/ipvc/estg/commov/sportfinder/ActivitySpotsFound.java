@@ -104,23 +104,42 @@ public class ActivitySpotsFound extends AppCompatActivity {
     }
 
     private void callWebServices() {
-        String url="http://sportfinderapi.000webhostapp.com/slim/api/getSpotDetailed/" ;
-        final Localidade localidade = new Localidade();
-        Map<String, String> jsonParams = new HashMap<String, String>();
-        jsonParams.put("lat", "");
-        jsonParams.put("lng", "");
-        ArrayList<Desporto> desportos = new ArrayList<>();
-        //desportos.add(new Desporto())
+        String url="http://sportfinderapi.000webhostapp.com/slim/api/getlocais2" ;
 
-
+        JSONObject jsonObject;
+        JSONArray jsonArray = new JSONArray();
+        for (String id:this.listIdEscolhidos) {
+            try {
+                jsonObject = new JSONObject();
+                jsonObject.put("id", id);
+                jsonArray.put(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        JSONObject jsonObject1 = new JSONObject();
+        try {
+            jsonObject1.put("lat", "41.693654");
+            jsonObject1.put("long", "-8.839890");
+            jsonObject1.put("sports", jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(this, "##: "+jsonObject1.toString(),Toast.LENGTH_SHORT).show();
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
-                new JSONObject(jsonParams),
+                jsonObject1,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            if (response.getBoolean("status")) {
-                                Toast.makeText(ActivitySpotsFound.this, response.getString("MSG"), Toast.LENGTH_SHORT).show();
+                            if (response.getBoolean("STATUS")) {
+                                JSONArray data = response.getJSONArray("DATA");
+                                for (int i=0; i > -1;i++){
+                                    JSONObject aux = data.getJSONObject(i);
+                                    Toast.makeText(ActivitySpotsFound.this, aux.getString("nome"), Toast.LENGTH_LONG).show();
+                                    i = -100;
+                                }
+
                             } else {
                                 Toast.makeText(ActivitySpotsFound.this, response.getString("MSG"), Toast.LENGTH_SHORT).show();
                             }
@@ -193,8 +212,11 @@ public class ActivitySpotsFound extends AppCompatActivity {
     }
 
     private void mostrarLocalDetalhe(Localidade tmp) {
-        Intent intent = new Intent(ActivitySpotsFound.this, ActivityShowSpotDetailed.class);
-        intent.putExtra("_ID", tmp.get_ID());
+        Intent intent = new Intent(ActivitySpotsFound.this, ActivityParqueDetails.class);
+        intent.putExtra("_ID", 27);
+        intent.putExtra("nome", "Largo dos Patos");
+        intent.putExtra("raio", "500");
+        intent.putExtra("descricao", "Excelente local para a prática de basquetebol!");
         startActivity(intent);
     }
 

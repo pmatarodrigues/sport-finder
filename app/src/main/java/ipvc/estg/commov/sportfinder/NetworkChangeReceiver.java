@@ -27,7 +27,7 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         {
             if (isOnline(context)) {
                 Log.i("TAG", "ENTROU ONLINE");
-                Toast.makeText(context, "Ligado à internet!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "Ligado à internet!", Toast.LENGTH_LONG).show();
                 //dialog(true);
             } else {
                 Log.i("TAG", "ENTROU OFF");
