@@ -2,13 +2,17 @@ package ipvc.estg.commov.sportfinder;
 
 import android.Manifest;
 import android.Manifest.permission;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
@@ -86,6 +90,10 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
 
     ArrayList<String> listIdEscolhidos;
 
+    // NEEDED TO CHECK FOR NETWORK
+    private BroadcastReceiver mNetworkReceiver;
+    ClassNoInternet classNoInternet;
+
 
     private String PROVIDER = LocationManager.GPS_PROVIDER;
 
@@ -94,6 +102,11 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_place_map);
+
+        // NEEDED TO CHECK FOR NETWORK
+        mNetworkReceiver = new NetworkChangeReceiver();
+        classNoInternet = new ClassNoInternet(mNetworkReceiver);
+        registerNetworkBroadcastForNougat();
 
         Bundle bundle = getIntent().getExtras();
         //ArrayList<String> tempList = bundle.getStringArrayList("selectedSports");
@@ -371,6 +384,30 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
         }
 
         return true;
+    }
+
+    // NEEDED TO CHECK FOR NETWORK
+    public void registerNetworkBroadcastForNougat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+    }
+
+    public void unregisterNetworkChanges() {
+        try {
+            unregisterReceiver(mNetworkReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //classNoInternet.unregisterNetworkChanges();
     }
 
 }

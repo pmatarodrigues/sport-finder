@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
+import android.widget.Toast;
 
 import static ipvc.estg.commov.sportfinder.ClassNoInternet.dialog;
 
@@ -18,21 +19,23 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
 
     ViewDialog alert;
 
+
     @Override
     public void onReceive(Context context, Intent intent)
     {
         try
         {
             if (isOnline(context)) {
-                Activity activity = (Activity) context;
-
-                //ViewDialog alert = new ViewDialog(context);
-                alert.dismiss();
+                Log.i("TAG", "ENTROU ONLINE");
+                Toast.makeText(context, "Ligado à internet!", Toast.LENGTH_LONG).show();
                 //dialog(true);
             } else {
-                Activity activity = (Activity) context;
+                Log.i("TAG", "ENTROU OFF");
 
-                alert = new ViewDialog(context);
+                Activity activity = (Activity) context;
+                //MainActivity activity = new MainActivity();
+
+                alert = new ViewDialog(activity);
                 alert.showDialog(activity, "Erro de ligação à internet!");
                 //dialog(false);
             }

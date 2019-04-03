@@ -11,8 +11,8 @@
         android:id="@+id/a"
         android:gravity="center"
         android:background="@drawable/background_button_danger"
-        android:src="@drawable/ic_icon_ranking"
-        android:scaleType="center"
+        android:src="@drawable/ic_icon_no_network"
+        android:scaleType="centerInside"
         />
 
     <TextView

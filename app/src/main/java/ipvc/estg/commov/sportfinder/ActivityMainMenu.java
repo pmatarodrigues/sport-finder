@@ -40,6 +40,7 @@ public class ActivityMainMenu extends AppCompatActivity implements GoogleApiClie
     Button buttonAdd;
     Button buttonProfile;
     Button buttonSearch;
+    Button buttonStats;
 
     // NEEDED TO CHECK FOR NETWORK
     private BroadcastReceiver mNetworkReceiver;
@@ -77,6 +78,7 @@ public class ActivityMainMenu extends AppCompatActivity implements GoogleApiClie
         buttonAdd = (Button) findViewById(R.id.button_add_main_menu);
         buttonProfile = (Button) findViewById(R.id.button_profile_main_menu);
         buttonSearch = (Button) findViewById(R.id.button_search_main_menu);
+        buttonStats = (Button) findViewById(R.id.button_stats_main_menu);
 
         //button_search_main_menu
         setupListeners();
@@ -103,7 +105,7 @@ public class ActivityMainMenu extends AppCompatActivity implements GoogleApiClie
     @Override
     public void onDestroy() {
         super.onDestroy();
-        classNoInternet.unregisterNetworkChanges();
+        //classNoInternet.unregisterNetworkChanges();
     }
 
 
@@ -129,10 +131,18 @@ public class ActivityMainMenu extends AppCompatActivity implements GoogleApiClie
         buttonProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO
+                // THIS SHOULD BE CHANGED TO OPEN PROFILE
+                // ACTIVITYPARQUEDETAILS TO OPEN AFTER CHOOSING PARQUE
                 Intent intent = new Intent(ActivityMainMenu.this, ActivityParqueDetails.class);
-
-                //Intent intent = new Intent(ActivityMainMenu.this, ActivityGraphs.class);
-
+                ActivityMainMenu.this.startActivity(intent);
+            }
+        });
+        // BUTTON TO OPEN GRAPHS ACTIVITY
+        buttonStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityMainMenu.this, ActivityGraphs.class);
                 ActivityMainMenu.this.startActivity(intent);
             }
         });

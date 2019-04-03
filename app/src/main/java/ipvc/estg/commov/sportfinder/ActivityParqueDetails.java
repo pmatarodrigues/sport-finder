@@ -617,7 +617,7 @@ public class ActivityParqueDetails extends AppCompatActivity
     @Override
     public void onDestroy() {
         super.onDestroy();
-        classNoInternet.unregisterNetworkChanges();
+        //classNoInternet.unregisterNetworkChanges();
     }
 
 }

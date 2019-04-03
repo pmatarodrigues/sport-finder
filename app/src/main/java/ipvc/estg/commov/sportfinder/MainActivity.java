@@ -1,10 +1,14 @@
 package ipvc.estg.commov.sportfinder;
 
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextPassword;
 
+    // NEEDED TO CHECK FOR NETWORK
+    private BroadcastReceiver mNetworkReceiver;
+    ClassNoInternet classNoInternet;
+
     private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
 
@@ -40,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //
-
+        // NEEDED TO CHECK FOR NETWORK
+        mNetworkReceiver = new NetworkChangeReceiver();
+        classNoInternet = new ClassNoInternet(mNetworkReceiver);
+        registerNetworkBroadcastForNougat();
 
         editTextEmail = (EditText) findViewById(R.id.login_email);
         editTextPassword = (EditText) findViewById(R.id.login_password);
@@ -165,6 +176,29 @@ public class MainActivity extends AppCompatActivity {
     private void teste(){
         Log.d("TAG","pedro123 estou a correr em backgroung");
         //LocationManager manager= new LocationManager();
+    }
+
+    // NEEDED TO CHECK FOR NETWORK
+    public void registerNetworkBroadcastForNougat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            registerReceiver(mNetworkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        }
+    }
+
+    public void unregisterNetworkChanges() {
+        try {
+            unregisterReceiver(mNetworkReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
 }

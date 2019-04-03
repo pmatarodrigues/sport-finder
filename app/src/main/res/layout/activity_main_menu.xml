@@ -185,16 +185,16 @@
                 />
 
             <Button
-                android:drawableTop="@drawable/ic_icon_history"
+                android:drawableTop="@drawable/ic_icon_stats"
                 android:layout_row="1"
                 android:layout_column="1"
-                android:id="@+id/button_hist_main_menu"
+                android:id="@+id/button_stats_main_menu"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 android:layout_margin="10dp"
                 android:padding="30dp"
                 android:background="@drawable/background_button_main_menu"
-                android:text="@string/history"
+                android:text="@string/stats"
                 android:elevation="20dp"
                 />
 
