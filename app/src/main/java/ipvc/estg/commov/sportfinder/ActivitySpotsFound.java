@@ -15,6 +15,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
@@ -23,9 +28,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import ipvc.estg.commov.sportfinder.Classes.Desporto;
 import ipvc.estg.commov.sportfinder.Classes.Localidade;
+import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 import ipvc.estg.commov.sportfinder.adapter.cursorAdapterSpotsFound;
 
 public class ActivitySpotsFound extends AppCompatActivity {
@@ -96,23 +104,45 @@ public class ActivitySpotsFound extends AppCompatActivity {
     }
 
     private void callWebServices() {
-        String json = new Gson().toJson(listIdEscolhidos);
-        JSONArray idDesporto = new JSONArray();
-        for (String temp: listIdEscolhidos) {
-            idDesporto.put(temp);
-        }
-        JSONObject idDesportos = new JSONObject();
-        try {
-            idDesportos.put("ids", idDesporto);
-            idDesportos.put("lat", "41.70482865291267");
-            idDesportos.put("lon", "-8.843413777649403");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        Log.d("TAG","costa: "+ idDesportos);
-        Toast.makeText(ActivitySpotsFound.this, idDesportos.toString(), Toast.LENGTH_LONG).show();
-        //
+        String url="http://sportfinderapi.000webhostapp.com/slim/api/getSpotDetailed/" ;
+        final Localidade localidade = new Localidade();
+        Map<String, String> jsonParams = new HashMap<String, String>();
+        jsonParams.put("lat", "");
+        jsonParams.put("lng", "");
+        ArrayList<Desporto> desportos = new ArrayList<>();
+        //desportos.add(new Desporto())
 
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
+                new JSONObject(jsonParams),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.getBoolean("status")) {
+                                Toast.makeText(ActivitySpotsFound.this, response.getString("MSG"), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(ActivitySpotsFound.this, response.getString("MSG"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException ex) {
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(ActivitySpotsFound.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("User-agent", System.getProperty("http.agent"));
+                return headers;
+            }
+        };
+        //MySingleton.getInstance(this).addToRequestQueue(postRequest);
     }
 
     private void setupListener() {

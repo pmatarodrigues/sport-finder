@@ -78,6 +78,8 @@ public class ActivityShowSpotDetailed extends AppCompatActivity implements OnMap
             @Override
             public void onResponse(JSONObject response) {
                 try{
+
+                    JSONArray jsonArray = response.getJSONArray("DATA");
                     //((TextView) findViewById(R.id.lblResult)).setText(response.getString("descr"));
                     localidade.setNome(response.getString("nome"));
                     localidade.setDescricao(response.getString("descricao"));
