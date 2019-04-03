@@ -134,7 +134,7 @@ public class ActivityMainMenu extends AppCompatActivity implements GoogleApiClie
                 // TODO
                 // THIS SHOULD BE CHANGED TO OPEN PROFILE
                 // ACTIVITYPARQUEDETAILS TO OPEN AFTER CHOOSING PARQUE
-                Intent intent = new Intent(ActivityMainMenu.this, ActivityParqueDetails.class);
+                Intent intent = new Intent(ActivityMainMenu.this, ActivityUserAccount.class);
                 ActivityMainMenu.this.startActivity(intent);
             }
         });

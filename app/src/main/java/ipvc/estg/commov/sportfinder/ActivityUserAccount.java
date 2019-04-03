@@ -19,7 +19,7 @@ public class ActivityUserAccount extends AppCompatActivity {
         btn_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ActivityUserAccount.this, "ISTO TERMINA SESSÃO?", Toast.LENGTH_SHORT).show();
+
             }
         });
     }

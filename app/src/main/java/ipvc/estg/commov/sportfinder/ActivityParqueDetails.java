@@ -95,6 +95,7 @@ public class ActivityParqueDetails extends AppCompatActivity
     ArrayList<LatLng> locs= new ArrayList<LatLng>();
     private List<Local> listaLocais;
 
+    int idParque;
     String nomeParque;
     String descricaoParque;
     LatLng latLngParque;
@@ -102,6 +103,10 @@ public class ActivityParqueDetails extends AppCompatActivity
 
     public Date horasEntrada;
     public Date horasSaida;
+
+    private static final long GEO_DURATION = 60 * 60 * 1000;
+    private String GEOFENCE_REQ_ID = null;
+    private float GEOFENCE_RADIUS = 0.0f;
 
     public Long tempoDentroGeofence;
 
@@ -138,6 +143,16 @@ public class ActivityParqueDetails extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parque_details);
 
+        Bundle extras = getIntent().getExtras();
+
+        idParque = extras.getInt("_ID");
+        nomeParque = extras.getString("nome");
+        GEOFENCE_REQ_ID = nomeParque;
+        raioParque = extras.getString("raio");
+        GEOFENCE_RADIUS = Float.parseFloat(raioParque);
+        descricaoParque = extras.getString("descricao");
+
+
         //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         //mapFragment.getMapAsync(this);
         latLng = new LatLng(41.6920494, -8.8346252);
@@ -149,6 +164,8 @@ public class ActivityParqueDetails extends AppCompatActivity
         classNoInternet = new ClassNoInternet(mNetworkReceiver);
         registerNetworkBroadcastForNougat();
 
+        //GEOFENCE_REQ_ID = "NOME DO PARQUE";
+        //GEOFENCE_RADIUS = 1000;
 
         LocalBroadcastManager lbc = LocalBroadcastManager.getInstance(this);
         GoogleReceiver receiver = new GoogleReceiver(this);
@@ -189,6 +206,7 @@ public class ActivityParqueDetails extends AppCompatActivity
                 long minutes = seconds / 60;
                 activityParqueDetails.tempoDentroGeofence = minutes;
                 Log.i("TAG", "HORAS DIFF " + diff + ":" + seconds + ":" + minutes);
+                Toast.makeText(context, "Ganhou " + seconds + " pts", Toast.LENGTH_LONG).show();
                 activityParqueDetails.setHorasEntrada(null);
                 activityParqueDetails.setHorasSaida(null);
 
@@ -414,10 +432,6 @@ public class ActivityParqueDetails extends AppCompatActivity
             Log.e(TAG, "Geofence marker is null");
         }
     }
-
-    private static final long GEO_DURATION = 60 * 60 * 1000;
-    private static final String GEOFENCE_REQ_ID = "My Geofence";
-    private static final float GEOFENCE_RADIUS = 500.0f; // in meters
 
     // Create a Geofence
     private Geofence createGeofence( LatLng latLng, float radius ) {

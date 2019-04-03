@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ActivityMainMenu.class);
             MainActivity.this.startActivity(intent);
         }
-        executeBackground();
+        //executeBackground();
     }
 
     private void setupListeners() {
