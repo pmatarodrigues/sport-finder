@@ -10,6 +10,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.LegendRenderer;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
+import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
@@ -57,14 +61,24 @@ public class ActivityGraphs extends AppCompatActivity {
                                 pontos = Integer.parseInt(obj.getString("pontos"));
                                 semana = Integer.parseInt(obj.getString("semana_registo"));
                                 dataPoints[i] = new DataPoint(semana, pontos); // segundo param possivel double
-
-
                             };
 
+                            BarGraphSeries<DataPoint> series = new BarGraphSeries<>(dataPoints);
 
-                            LineGraphSeries<DataPoint> series = new LineGraphSeries<>(dataPoints);
+                            // enable scaling and scrolling
+                            graph.getViewport().setScalable(true);
+                            graph.getViewport().setScalableY(true);
+
+                            graph.getViewport().setYAxisBoundsManual(true);
+                            graph.getViewport().setMinY(0);
+                            graph.getViewport().setMaxY(14);
+
+                            graph.getGridLabelRenderer().setGridStyle( GridLabelRenderer.GridStyle.NONE );
 
                             graph.addSeries(series);
+                            series.setTitle("Pontos / Semana");
+                            graph.getLegendRenderer().setVisible(true);
+                            graph.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
 
                         }catch (JSONException ex){
 

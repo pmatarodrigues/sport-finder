@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -32,6 +33,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+
+import java.util.Calendar;
 
 import ipvc.estg.commov.sportfinder.NetworkChangeReceiver;
 
@@ -73,7 +76,6 @@ public class ActivityMainMenu extends AppCompatActivity implements GoogleApiClie
         locationRequest.setInterval(30 * 1000);
         locationRequest.setFastestInterval(5 * 1000);
         // -----------------------
-
 
         buttonAdd = (Button) findViewById(R.id.button_add_main_menu);
         buttonProfile = (Button) findViewById(R.id.button_profile_main_menu);
