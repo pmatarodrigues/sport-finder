@@ -40,8 +40,9 @@
             <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pontos por semana"
+            android:text="Estatistícas"
             android:textColor="@color/colorBlack"
+            android:textAlignment="center"
             android:textSize="25dp"
             />
 
