@@ -47,4 +47,6 @@
 
     <string name="spotDetailed_direcoes">Direções</string>
     <string name="spotDetailed_avaliacao">Avaliação</string>
+
+    <string name="spotsFound_noSpot">Nenhum local encontrado para a sua localização atual</string>
 </resources>

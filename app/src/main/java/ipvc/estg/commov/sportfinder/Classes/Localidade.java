@@ -16,6 +16,8 @@ public class Localidade {
     private ArrayList<Desporto> desportos = null;
     private ArrayList<String> urlFotos = null;
     private String avaliacao;
+    private int distanciaAtual;
+
 
     public Localidade() {
         this.desportos = new ArrayList<>();
@@ -97,7 +99,13 @@ public class Localidade {
         }
         this.urlFotos.add(url);
     }
+    public int getDistanciaAtual() {
+        return distanciaAtual;
+    }
 
+    public void setDistanciaAtual(int distanciaAtual) {
+        this.distanciaAtual = distanciaAtual;
+    }
     public String getAvaliacao() {
         return avaliacao;
     }
