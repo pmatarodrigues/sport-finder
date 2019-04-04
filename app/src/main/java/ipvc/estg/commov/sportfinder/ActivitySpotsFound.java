@@ -34,7 +34,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -131,11 +134,10 @@ public class ActivitySpotsFound extends AppCompatActivity {
                                     Double d = Double.parseDouble(aux.getString("distancia"));
                                     aux2.setDistanciaAtual(d.intValue());
                                     aux2.setAvaliacao(aux.getString("avalicao"));
-                                    //aux2.addUrl(aux.getString("fotoUrl"));
-                                    Toast.makeText(ActivitySpotsFound.this, "URL::"+aux.getString("fotoUrl"),Toast.LENGTH_SHORT).show();
                                     aux2.addUrl(aux.getString("fotoUrl")+".png");
                                     locais.add(aux2);
                                 }
+                                //ordenarArray();
                                 preencherListaLocais();
                             } else {
                                 Toast.makeText(ActivitySpotsFound.this,  getResources().getString(R.string.spotsFound_noSpot), Toast.LENGTH_SHORT).show();
@@ -159,6 +161,15 @@ public class ActivitySpotsFound extends AppCompatActivity {
             }
         };
         MySingleton.getIntance(this).addToRequestQueue(postRequest);
+    }
+
+    private void ordenarArray() {
+        Map<Integer,Integer> id_distancia = new HashMap<>();
+        for (Localidade tmp:this.locais) {
+            id_distancia.put(tmp.get_ID(),tmp.getDistanciaAtual());
+        }
+
+
     }
 
     private void setupListener() {

@@ -29,7 +29,7 @@
             android:textSize="20dp"
             android:text="Parque “Lago dos Patos”"
             android:textColor="@color/colorBlack"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
             android:id="@+id/txt_spot_name"/>
 
