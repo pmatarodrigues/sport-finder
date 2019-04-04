@@ -212,10 +212,10 @@ public class ActivitySpotsFound extends AppCompatActivity {
     private void mostrarLocalDetalhe(Localidade tmp) {
         Intent intent = new Intent(ActivitySpotsFound.this, ActivityParqueDetails.class);
         //TODO -> Colocar id que foi clicado
-        intent.putExtra("_ID", 27);
-        intent.putExtra("nome", "Largo dos Patos");
-        intent.putExtra("raio", "500");
-        intent.putExtra("descricao", "Excelente local para a prática de basquetebol!");
+        intent.putExtra("_ID", tmp.get_ID());
+        //intent.putExtra("nome", "Largo dos Patos");
+        //intent.putExtra("raio", "500");
+        //intent.putExtra("descricao", "Excelente local para a prática de basquetebol!");
         startActivity(intent);
     }
 
