@@ -35,6 +35,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -137,7 +138,7 @@ public class ActivitySpotsFound extends AppCompatActivity {
                                     aux2.addUrl(aux.getString("fotoUrl")+".png");
                                     locais.add(aux2);
                                 }
-                                //ordenarArray();
+                                ordenarArray();
                                 preencherListaLocais();
                             } else {
                                 Toast.makeText(ActivitySpotsFound.this,  getResources().getString(R.string.spotsFound_noSpot), Toast.LENGTH_SHORT).show();
@@ -164,11 +165,13 @@ public class ActivitySpotsFound extends AppCompatActivity {
     }
 
     private void ordenarArray() {
-        Map<Integer,Integer> id_distancia = new HashMap<>();
-        for (Localidade tmp:this.locais) {
-            id_distancia.put(tmp.get_ID(),tmp.getDistanciaAtual());
-        }
 
+        Collections.sort(locais, new Comparator<Localidade>() {
+            @Override
+            public int compare(Localidade loc_1, Localidade loc_2) {
+                return loc_1.getDistanciaAtual() - loc_2.getDistanciaAtual();
+            }
+        });
 
     }
 
