@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/img_spot_encontrado"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:scaleType="fitXY"
@@ -30,6 +30,7 @@
             android:text="Parque “Lago dos Patos”"
             android:textColor="@color/colorBlack"
             android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"
             android:id="@+id/txt_spot_name"/>
 
         <TextView
