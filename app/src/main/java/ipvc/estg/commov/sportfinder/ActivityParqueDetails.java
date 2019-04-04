@@ -69,6 +69,7 @@ import java.util.List;
 import java.util.Map;
 
 import ipvc.estg.commov.sportfinder.Classes.Local;
+import ipvc.estg.commov.sportfinder.Classes.Localidade;
 import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 
 public class ActivityParqueDetails extends AppCompatActivity
@@ -103,6 +104,11 @@ public class ActivityParqueDetails extends AppCompatActivity
 
     public Date horasEntrada;
     public Date horasSaida;
+
+    TextView txt_nomeParque;
+    TextView txt_descricaoParque;
+
+    private Localidade local;
 
     private static final long GEO_DURATION = 60 * 60 * 1000;
     private String GEOFENCE_REQ_ID = null;
@@ -142,41 +148,22 @@ public class ActivityParqueDetails extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parque_details);
+        txt_nomeParque = (TextView) findViewById(R.id.txt_nomeparque);
+        txt_descricaoParque = (TextView) findViewById(R.id.txt_descricaoparque);
 
         Bundle extras = getIntent().getExtras();
-
         idParque = extras.getInt("_ID");
-        nomeParque = extras.getString("nome");
-        GEOFENCE_REQ_ID = nomeParque;
-        raioParque = extras.getString("raio");
-        GEOFENCE_RADIUS = Float.parseFloat(raioParque);
-        descricaoParque = extras.getString("descricao");
 
-
-        //MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        //mapFragment.getMapAsync(this);
-        latLng = new LatLng(41.6920494, -8.8346252);
+        //latLng = new LatLng(41.6920494, -8.8346252);
         btnDirecoes=(Button) findViewById(R.id.btnDirection);
-        getListaLocais();
+        //getListaLocais();
+        getListaLocaisById(idParque);
+        //preencherListaLocais();
 
         // NEEDED TO CHECK FOR NETWORK
         mNetworkReceiver = new NetworkChangeReceiver();
         classNoInternet = new ClassNoInternet(mNetworkReceiver);
         registerNetworkBroadcastForNougat();
-
-        //GEOFENCE_REQ_ID = "NOME DO PARQUE";
-        //GEOFENCE_RADIUS = 1000;
-
-        LocalBroadcastManager lbc = LocalBroadcastManager.getInstance(this);
-        GoogleReceiver receiver = new GoogleReceiver(this);
-        lbc.registerReceiver(receiver, new IntentFilter("googlegeofence"));
-        //Anything with this intent will be sent to this receiver
-
-        // initialize GoogleMaps
-        initGMaps();
-
-        // create GoogleApiClient
-        createGoogleApi();
 
     }
 
@@ -228,9 +215,6 @@ public class ActivityParqueDetails extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-
-        // Call GoogleApiClient connection when starting the Activity
-        googleApiClient.connect();
     }
 
     @Override
@@ -297,9 +281,9 @@ public class ActivityParqueDetails extends AppCompatActivity
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("Nome do Parque");
+        //MarkerOptions markerOptions = new MarkerOptions();
+        //markerOptions.position(latLng);
+        //markerOptions.title("Nome do Parque");
 
         markerForGeofence(latLng);
         markerLocation(latLng);
@@ -307,7 +291,7 @@ public class ActivityParqueDetails extends AppCompatActivity
 
     @Override
     public void onMapClick(LatLng latLng) {
-        markerForGeofence(latLng);
+        //markerForGeofence(latLng);
     }
 
     @Override
@@ -390,7 +374,7 @@ public class ActivityParqueDetails extends AppCompatActivity
             if ( locationMarker != null )
                 locationMarker.remove();
             locationMarker = mMap.addMarker(markerOptions);
-            float zoom = 14f;
+            float zoom = 17f;
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
             mMap.animateCamera(cameraUpdate);
         }
@@ -414,7 +398,6 @@ public class ActivityParqueDetails extends AppCompatActivity
                 geoFenceMarker.remove();
 
             geoFenceMarker = mMap.addMarker(markerOptions);
-            gfmarkr.add(geoFenceMarker);
 
         }
     }
@@ -423,11 +406,9 @@ public class ActivityParqueDetails extends AppCompatActivity
     private void startGeofence() {
         Log.i(TAG, "startGeofence()este");
         if( geoFenceMarker != null ) {
-            for(int i=0;i<gfmarkr.size();i++) {
-                Geofence geofence = createGeofence(gfmarkr.get(i).getPosition(), GEOFENCE_RADIUS);
-                GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
-                addGeofence(geofenceRequest);
-            }
+            Geofence geofence = createGeofence(geoFenceMarker.getPosition(), GEOFENCE_RADIUS);
+            GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
+            addGeofence(geofenceRequest);
         } else {
             Log.e(TAG, "Geofence marker is null");
         }
@@ -528,9 +509,9 @@ public class ActivityParqueDetails extends AppCompatActivity
         if ( sharedPref.contains( KEY_GEOFENCE_LAT ) && sharedPref.contains( KEY_GEOFENCE_LON )) {
             double lat = Double.longBitsToDouble( sharedPref.getLong( KEY_GEOFENCE_LAT, -1 ));
             double lon = Double.longBitsToDouble( sharedPref.getLong( KEY_GEOFENCE_LON, -1 ));
-            LatLng latLng = new LatLng( lat, lon );
-            markerForGeofence(latLng);
-            drawGeofence();
+            //LatLng latLng = new LatLng( lat, lon );
+            //markerForGeofence(latLng);
+            //drawGeofence();
         }
     }
 
@@ -558,23 +539,20 @@ public class ActivityParqueDetails extends AppCompatActivity
         if ( geoFenceLimits != null )
             geoFenceLimits.remove();
     }
-    private void getListaLocais(){
-        String url="http://ec2-18-223-143-185.us-east-2.compute.amazonaws.com/slim/index.php/api/getLocaisSmall";
-        //Local local= new Local();
-        listaLocais= new ArrayList<>();
+
+    private void getListaLocaisById(int idLocal){
+        String url="http://ec2-18-223-143-185.us-east-2.compute.amazonaws.com/slim/index.php/api/getLocaisSmallId/"+idLocal;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Local local;
                             JSONArray arr = response.getJSONArray("DATA");
-                            Log.d(TAG,"Locais123arr"+listaLocais.size());
                             for(int i=0;i<arr.length();i++){
-                                local= new Local();
+                                local= new Localidade();
                                 JSONObject obj=arr.optJSONObject(i);
-                                local.setId(obj.getString("id"));
+                                local.set_ID(Integer.valueOf(obj.getString("id")));
                                 local.setNome(obj.getString("nome"));
 
                                 String latLngAux=obj.getString("coordenadas");
@@ -583,10 +561,12 @@ public class ActivityParqueDetails extends AppCompatActivity
                                 String latitude = aux[0];
                                 String longitude = aux[1];
                                 Log.d(TAG,"Locais123lat: "+latitude);
-                                local.setLatLng(new LatLng(Double.parseDouble(latitude),Double.parseDouble(longitude)));
+                                local.setDescricao(obj.getString("descricao"));
+                                local.setLat(latitude);
+                                local.setLng(longitude);
+                                local.setRaio(obj.getString("raio"));
 
-                                local.setRaio(Integer.valueOf(obj.getString("raio")));
-                                listaLocais.add(local);
+                                //listaLocais.add(local);
                             };
                             preencherListaLocais();
                         }catch (JSONException ex){
@@ -603,9 +583,36 @@ public class ActivityParqueDetails extends AppCompatActivity
     }
 
     private void preencherListaLocais(){
-        for(int i=0;i<listaLocais.size();i++){
-            Log.d(TAG,"Locais123id: "+listaLocais.get(i).getId());
-        }
+
+        nomeParque = local.getNome();
+        GEOFENCE_REQ_ID = local.getNome();
+        GEOFENCE_RADIUS = Float.valueOf(local.getRaio());
+        raioParque = local.getRaio();
+        descricaoParque = local.getDescricao();
+        latLng = new LatLng(Double.parseDouble(local.getLat()), Double.parseDouble(local.getLng()));
+
+        txt_nomeParque.setText(local.getNome());
+        txt_descricaoParque.setText(local.getDescricao());
+
+
+        Log.i("TAG", "123NOME " + nomeParque);
+        Log.i("TAG", "123RAIO " + raioParque);
+        Log.i("TAG", "123DESCR " + descricaoParque);
+        Log.i("TAG", "123LATLNG " + latLng);
+
+        LocalBroadcastManager lbc = LocalBroadcastManager.getInstance(this);
+        GoogleReceiver receiver = new GoogleReceiver(this);
+        lbc.registerReceiver(receiver, new IntentFilter("googlegeofence"));
+        //Anything with this intent will be sent to this receiver
+
+        // initialize GoogleMaps
+        initGMaps();
+
+        // create GoogleApiClient
+        createGoogleApi();
+
+        // Call GoogleApiClient connection when starting the Activity
+        googleApiClient.connect();
 
     }
 

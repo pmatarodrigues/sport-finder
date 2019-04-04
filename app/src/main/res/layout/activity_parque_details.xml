@@ -46,18 +46,19 @@
                     >
 
                     <TextView
+                        android:id="@+id/txt_nomeparque"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nome do Parque"
+                        android:text="A carregar..."
                         android:textColor="@color/colorBlack"
                         android:textSize="25dp"
                         />
 
                     <TextView
+                        android:id="@+id/txt_descricaoparque"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Descrição do Parque..... \nParque ideal para a prática de desporto, tal como skate e corrida, bem como dar uns toques na bola com amigos.
-Paisagem fantástica. Junto à praia."
+                        android:text="A carregar..."
                         />
 
                     <fragment
