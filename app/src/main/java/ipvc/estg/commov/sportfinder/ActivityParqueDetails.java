@@ -33,6 +33,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -63,12 +64,14 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import ipvc.estg.commov.sportfinder.Classes.Local;
+import ipvc.estg.commov.sportfinder.Classes.LocalUtilizadorEst;
 import ipvc.estg.commov.sportfinder.Classes.Localidade;
 import ipvc.estg.commov.sportfinder.Classes.MySingleton;
 
@@ -108,6 +111,8 @@ public class ActivityParqueDetails extends AppCompatActivity
     TextView txt_nomeParque;
     TextView txt_descricaoParque;
 
+    LocalUtilizadorEst localUtilizadorEst;
+
     private Localidade local;
 
     private static final long GEO_DURATION = 60 * 60 * 1000;
@@ -128,6 +133,8 @@ public class ActivityParqueDetails extends AppCompatActivity
     public void setHorasSaida(Date horasSaida) {
         this.horasSaida = horasSaida;
     }
+
+    private static Context contextThis;
 
     // NEEDED TO CHECK FOR NETWORK
     private BroadcastReceiver mNetworkReceiver;
@@ -159,6 +166,10 @@ public class ActivityParqueDetails extends AppCompatActivity
         //getListaLocais();
         getListaLocaisById(idParque);
         //preencherListaLocais();
+
+        this.contextThis = this;
+
+        localUtilizadorEst = new LocalUtilizadorEst();
 
         // NEEDED TO CHECK FOR NETWORK
         mNetworkReceiver = new NetworkChangeReceiver();
@@ -194,12 +205,61 @@ public class ActivityParqueDetails extends AppCompatActivity
                 activityParqueDetails.tempoDentroGeofence = minutes;
                 Log.i("TAG", "HORAS DIFF " + diff + ":" + seconds + ":" + minutes);
                 Toast.makeText(context, "Ganhou " + seconds + " pts", Toast.LENGTH_LONG).show();
+                registerPointsForGeofence(String.valueOf(seconds), String.valueOf(activityParqueDetails.idParque), "1");
                 activityParqueDetails.setHorasEntrada(null);
                 activityParqueDetails.setHorasSaida(null);
 
             }
         }
     }
+
+    // FUNCTION TO REGISTER GAINED POINTS
+    private static void registerPointsForGeofence(String pontos, String localidadeID, String utilizadorID){
+        String url = "http://ec2-18-223-143-185.us-east-2.compute.amazonaws.com/slim/index.php/api/registarPontos";
+
+        Date dataRegisto = Calendar.getInstance().getTime();
+        Calendar semanaRegisto = Calendar.getInstance();
+
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+        String dataRegistoFormatted = dateFormat.format(dataRegisto);
+
+        Map<String, String> registoPontos = new HashMap<String, String>();
+        registoPontos.put("utilizador_id", utilizadorID);
+        registoPontos.put("pontos", pontos);
+        registoPontos.put("localidade_id", localidadeID);
+        registoPontos.put("data_registo", dataRegistoFormatted);
+        registoPontos.put("semana_registo", String.valueOf(semanaRegisto.get(Calendar.WEEK_OF_YEAR)));
+
+        JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
+                new JSONObject(registoPontos),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            if (response.getBoolean("status")) {
+                                Log.i("TAG", "SUCC123 " + response.getString("MSG"));
+                            } else {
+                                Log.i("TAG", "ERRO123 " + response.getString("MSG"));
+                            }
+                        } catch (JSONException ex) {}
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("TAG", "ERRO123 " + error.getMessage());                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                headers.put("User-agent", System.getProperty("http.agent"));
+                return headers;
+            }
+        };
+        MySingleton.getIntance(contextThis).addToRequestQueue(postRequest);
+    }
+
 
     // Create GoogleApiClient instance
     private void createGoogleApi() {
