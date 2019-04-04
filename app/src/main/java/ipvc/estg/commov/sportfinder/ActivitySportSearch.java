@@ -163,7 +163,7 @@ public class ActivitySportSearch extends AppCompatActivity{
     }
 
     private void getListaDesportos(){
-        String url="http://sportfinderapi.000webhostapp.com/slim/api/getDesportos";
+        String url="http://ec2-18-223-143-185.us-east-2.compute.amazonaws.com/slim/index.php/api/getDesportos";
         Desporto desporto= new Desporto();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest

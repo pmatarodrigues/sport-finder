@@ -104,7 +104,7 @@ public class ActivitySpotsFound extends AppCompatActivity {
     }
 
     private void callWebServices() {
-        String url="http://sportfinderapi.000webhostapp.com/slim/api/getlocais2" ;
+        String url="http://ec2-18-223-143-185.us-east-2.compute.amazonaws.com/slim/index.php/api/getlocais2" ;
 
         JSONObject jsonObject;
         JSONArray jsonArray = new JSONArray();

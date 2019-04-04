@@ -71,7 +71,7 @@ public class ActivityShowSpotDetailed extends AppCompatActivity implements OnMap
     }
 
     private void callWebService(int id) {
-        String url="http://sportfinderapi.000webhostapp.com/slim/api/getSpotDetailed/" + this.localidade.get_ID();
+        String url="http://ec2-18-223-143-185.us-east-2.compute.amazonaws.com/slim/index.php/api/getSpotDetailed/" + this.localidade.get_ID();
         final Localidade localidade = new Localidade();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

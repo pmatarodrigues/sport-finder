@@ -20,7 +20,7 @@ public class cursorAdapterSpotsFound extends CursorAdapter {
     private Context mContext;
     private Cursor mCursor;
     //
-    private String urlFotos = "http://sportfinderapi.000webhostapp.com/img/";
+    private String urlFotos = "http://ec2-18-223-143-185.us-east-2.compute.amazonaws.com/slim/img/";
 
     public cursorAdapterSpotsFound(Context context, Cursor c) {
         super(context, c,0);

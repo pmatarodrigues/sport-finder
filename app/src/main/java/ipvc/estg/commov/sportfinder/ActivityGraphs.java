@@ -36,7 +36,7 @@ public class ActivityGraphs extends AppCompatActivity {
     }
 
     private void getDadosGraphs(){
-        String url="http://sportfinderapi.000webhostapp.com/slim/api/getPontoSemana/1";
+        String url="http://ec2-18-223-143-185.us-east-2.compute.amazonaws.com/slim/index.php/api/getPontoSemana/1";
 
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest

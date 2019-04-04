@@ -559,7 +559,7 @@ public class ActivityParqueDetails extends AppCompatActivity
             geoFenceLimits.remove();
     }
     private void getListaLocais(){
-        String url="http://sportfinderapi.000webhostapp.com/slim/api/getLocaisSmall";
+        String url="http://ec2-18-223-143-185.us-east-2.compute.amazonaws.com/slim/index.php/api/getLocaisSmall";
         //Local local= new Local();
         listaLocais= new ArrayList<>();
 

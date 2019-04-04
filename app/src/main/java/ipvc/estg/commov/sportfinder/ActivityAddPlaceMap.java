@@ -144,7 +144,7 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
 
     // POST DATA TO SERVER
     public void clickPost(){
-        String url = "http://sportfinderapi.000webhostapp.com/slim/api/adicionarlocal";
+        String url = "http://ec2-18-223-143-185.us-east-2.compute.amazonaws.com/slim/index.php/api/adicionarlocal";
 
         switch (selectedRaioString.toString()){
             case "100m":
@@ -180,7 +180,7 @@ public class ActivityAddPlaceMap extends AppCompatActivity implements OnMapReady
                         try {
                             if (response.getBoolean("status")) {
                                 String idResponse = response.getString("id");
-                                String url = "http://sportfinderapi.000webhostapp.com/slim/api/adicionarlocaldesportos";
+                                String url = "http://ec2-18-223-143-185.us-east-2.compute.amazonaws.com/slim/index.php/api/adicionarlocaldesportos";
 
                                 // ADICIONAR DESPORTOS RECEBIDOS DA ATIVIDADE ANTERIOR
                                 // PERCORRE DESPORTOS TODOS
