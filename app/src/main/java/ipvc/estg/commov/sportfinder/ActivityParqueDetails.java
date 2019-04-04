@@ -105,6 +105,9 @@ public class ActivityParqueDetails extends AppCompatActivity
     public Date horasEntrada;
     public Date horasSaida;
 
+    TextView txt_nomeParque;
+    TextView txt_descricaoParque;
+
     private Localidade local;
 
     private static final long GEO_DURATION = 60 * 60 * 1000;
@@ -145,9 +148,10 @@ public class ActivityParqueDetails extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parque_details);
+        txt_nomeParque = (TextView) findViewById(R.id.txt_nomeparque);
+        txt_descricaoParque = (TextView) findViewById(R.id.txt_descricaoparque);
 
         Bundle extras = getIntent().getExtras();
-
         idParque = extras.getInt("_ID");
 
         //latLng = new LatLng(41.6920494, -8.8346252);
@@ -370,7 +374,7 @@ public class ActivityParqueDetails extends AppCompatActivity
             if ( locationMarker != null )
                 locationMarker.remove();
             locationMarker = mMap.addMarker(markerOptions);
-            float zoom = 14f;
+            float zoom = 17f;
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, zoom);
             mMap.animateCamera(cameraUpdate);
         }
@@ -560,8 +564,8 @@ public class ActivityParqueDetails extends AppCompatActivity
                                 local.setDescricao(obj.getString("descricao"));
                                 local.setLat(latitude);
                                 local.setLng(longitude);
-
                                 local.setRaio(obj.getString("raio"));
+
                                 //listaLocais.add(local);
                             };
                             preencherListaLocais();
@@ -586,6 +590,10 @@ public class ActivityParqueDetails extends AppCompatActivity
         raioParque = local.getRaio();
         descricaoParque = local.getDescricao();
         latLng = new LatLng(Double.parseDouble(local.getLat()), Double.parseDouble(local.getLng()));
+
+        txt_nomeParque.setText(local.getNome());
+        txt_descricaoParque.setText(local.getDescricao());
+
 
         Log.i("TAG", "123NOME " + nomeParque);
         Log.i("TAG", "123RAIO " + raioParque);
