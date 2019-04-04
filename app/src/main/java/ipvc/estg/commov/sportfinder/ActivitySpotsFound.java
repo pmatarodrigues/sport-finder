@@ -111,9 +111,6 @@ public class ActivitySpotsFound extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if(1 == 1){
-            Toast.makeText(this, "##: "+jsonObject1.toString(),Toast.LENGTH_LONG).show();
-        }
         JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, url,
                 jsonObject1,
                 new Response.Listener<JSONObject>() {
@@ -126,7 +123,7 @@ public class ActivitySpotsFound extends AppCompatActivity {
                                     JSONObject aux = data.getJSONObject(i);
                                     Localidade aux2 = new Localidade();
                                     if(1==1){
-                                        Toast.makeText(ActivitySpotsFound.this, "ID::"+aux.getString("id"),Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(ActivitySpotsFound.this, "ID::"+aux.getString("id"),Toast.LENGTH_LONG).show();
                                         //return;
                                     }
                                     aux2.set_ID(Integer.parseInt(aux.getString("id")));
@@ -134,7 +131,9 @@ public class ActivitySpotsFound extends AppCompatActivity {
                                     Double d = Double.parseDouble(aux.getString("distancia"));
                                     aux2.setDistanciaAtual(d.intValue());
                                     aux2.setAvaliacao(aux.getString("avalicao"));
-                                    aux2.addUrl("empty.png");
+                                    //aux2.addUrl(aux.getString("fotoUrl"));
+                                    Toast.makeText(ActivitySpotsFound.this, "URL::"+aux.getString("fotoUrl"),Toast.LENGTH_SHORT).show();
+                                    aux2.addUrl(aux.getString("fotoUrl")+".png");
                                     locais.add(aux2);
                                 }
                                 preencherListaLocais();
